@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.example.usercenterapi.dao.mapper.FavoriteMapper">
-    <select id="selectListByUserId" parameterType="long" resultType="com.example.usercenterapi.dao.pojo.Favorite">
-        select f.id, f.count, f.name, f.avatar from favorite f join user_favorite uf on f.id = uf.favorite_id where uf.user_id = #{userId};
-    </select>
-</mapper>
