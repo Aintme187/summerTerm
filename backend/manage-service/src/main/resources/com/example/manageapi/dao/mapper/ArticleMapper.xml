@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.manageapi.dao.mapper.ArticleMapper">
+    <!--List<Tag> findTagsByArticleId(Long articleId);-->
+    <select id="getMyBlogs" parameterType="long" resultType="com.example.manageapi.dao.pojo.Article">
+        select a.id, comment_counts, a.create_date, summary, title, view_counts, weight, author_id, body_id, category_id, like_counts from article a
+        join sys_user u on a.author_id = u.id
+        where u.id = #{id};
+    </select>
+    <select id="getRelated" resultType="com.example.manageapi.dao.pojo.Article">
+        select a.title, a.id from article a join article_tag at on a.id = at.article_id where at.tag_id in
+        <foreach collection="tagIds" item="tagId" separator="," open="(" close=")">
+            #{tagId}
+        </foreach>
+        group by a.id
+    </select>
+    <select id="getMyBlogsWithCategory" resultType="com.example.manageapi.dao.pojo.Article">
+        select a.id, comment_counts, a.create_date, summary, title, view_counts, weight, author_id, body_id, category_id, like_counts from article a
+        join sys_user u on a.author_id = u.id
+        where u.id = #{userId} and a.category_id = #{categoryId};
+    </select>
+</mapper>

@@ -8,6 +8,13 @@
     <artifactId>blog-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <modules>
+        <module>manage-service</module>
+        <module>teach-service</module>
+        <module>blog-service</module>
+        <module>user-center-service</module>
+    </modules>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -16,9 +23,7 @@
         <relativePath/>
     </parent>
 
-    <modules>
-        <module>blog-api</module>
-    </modules>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,6 +35,17 @@
 
 
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2020.0.5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <repositories>
         <repository>

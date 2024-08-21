@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.manageapi.dao.mapper.TagMapper">
+    <!--List<Tag> findTagsByArticleId(Long articleId);-->
+    <select id="findTagsByArticleId" parameterType="long" resultType="com.example.manageapi.dao.pojo.Tag">
+        select id, avatar, tag_name as tagName from tag
+        where id in (select tag_id from article_tag where article_id = #{articleId})
+    </select>
+
+    <select id="findHotTagIds" parameterType="int" resultType="long">
+        select tag_id from article_tag group by tag_id order by count(*) DESC limit #{limit}
+    </select>
+
+    <select id="findTagsByTagIds" parameterType="list" resultType="com.example.manageapi.dao.pojo.Tag">
+        select id, avatar, tag_name from tag where id in
+        <foreach collection="tagIds" item="tagId" separator="," open="(" close=")">
+            #{tagId}
+        </foreach>
+    </select>
+
+    <select id="findCommentByArticleId" parameterType="long" resultType="com.example.manageapi.dao.pojo.Comment">
+        select c.id from comment c inner join article a on c.article_id = a.id
+    </select>
+
+</mapper>
