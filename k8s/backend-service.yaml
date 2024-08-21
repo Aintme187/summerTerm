@@ -1,0 +1,14 @@
+# 定义后端服务 (Spring Boot) 的 Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend  # 服务的名称
+  namespace: my-application  # 指定服务所属的命名空间
+spec:
+  selector:
+    app: backend  # 选择带有此标签的 Pod
+  ports:
+    - protocol: TCP  # 使用的协议类型，这里是 TCP
+      port: 8888  # 服务暴露的端口，供前端或其他服务访问
+      targetPort: 8888  # 容器内部应用监听的端口
+  type: ClusterIP  # 服务类型为 ClusterIP，表示服务只在集群内部可访问

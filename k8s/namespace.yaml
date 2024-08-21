@@ -1,0 +1,5 @@
+# 定义一个命名空间 (Namespace) 用于将所有相关的 Kubernetes 资源组织在一起
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-application  # 命名空间的名称，所有后续资源都会部署在此命名空间下

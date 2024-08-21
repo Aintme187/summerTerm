@@ -1,0 +1,28 @@
+# 定义后端服务 (Spring Boot) 的 Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend  # Deployment 的名称
+  namespace: my-application  # 指定资源所在的命名空间
+spec:
+  selector:
+    matchLabels:
+      app: backend  # 选择带有此标签的 Pod，确保服务与 Deployment 匹配
+  replicas: 1  # 运行的 Pod 副本数量
+  template:
+    metadata:
+      labels:
+        app: backend  # Pod 的标签，必须与服务的 selector 匹配
+    spec:
+      containers:
+      - name: backend  # 容器的名称
+        image: your-backend-image:latest  # 使用的镜像，这里是构建的后端应用镜像
+        ports:
+        - containerPort: 8888  # 容器内 Spring Boot 应用监听的端口
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/summerTerm  # Spring Boot 数据源 URL，连接到 MySQL 服务
+        - name: SPRING_DATASOURCE_USERNAME
+          value: summerTerm  # Spring Boot 数据源用户名
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: summerTerm  # Spring Boot 数据源密码
