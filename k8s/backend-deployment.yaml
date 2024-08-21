@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend  # 容器的名称
-        image: your-backend-image:latest  # 使用的镜像，这里是构建的后端应用镜像
+        image: aintme/summer-term-backend:latest  # 使用的镜像，这里是构建的后端应用镜像
         ports:
         - containerPort: 8888  # 容器内 Spring Boot 应用监听的端口
         env:
