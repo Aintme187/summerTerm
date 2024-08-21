@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * mapperScan 扫包，代表我们对com.example.blog.mapper文件路径下的mapper扫描
  * 扫包，将此包下的接口生成代理实现类，并且注册到spring容器中
  */
-@MapperScan("com.example.blogapi.dao")
+@MapperScan("com.example.manageapi.dao")
 public class MybatisPlusConfig {
     /**
      * 分页插件
