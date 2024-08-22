@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-@MapperScan
+@MapperScan("com.example.usercenterapi.dao.mapper")
 public class UserCenterServiceApplication {
 
     public static void main(String[] args) {

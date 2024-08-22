@@ -7,13 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="blog-api" />
         <module name="manage-service" />
         <module name="blog-service" />
         <module name="teach-service" />
         <module name="user-center-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="blog-api" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

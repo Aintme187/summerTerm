@@ -34,10 +34,17 @@ public class UsersController {
 
     @GetMapping("getMyInfo")
     @CrossOrigin
-    public Result getMyInfo(Long id) {
+    public Result getMyInfo(@RequestParam Long id) {
         return sysUserService.getInfoById(id);
     }
 
+
+    /**
+     * ???
+     * @param id
+     * @param url
+     * @return
+     */
     @PutMapping("updateAvatar")
     @CrossOrigin
     public Result updateAvatar(Long id,String url) {
