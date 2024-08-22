@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mysql  # 容器的名称
-        image: mysql:8.0  # 使用的 MySQL 镜像版本
+        image: aintme/summer-term-mysql:latest  # 使用的 MySQL 镜像版本
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: summerTerm  # 设置 MySQL 的 root 用户密码

@@ -11,4 +11,5 @@ spec:
     - protocol: TCP  # 使用的协议类型，这里是 TCP
       port: 8888  # 服务暴露的端口，供前端或其他服务访问
       targetPort: 8888  # 容器内部应用监听的端口
-  type: ClusterIP  # 服务类型为 ClusterIP，表示服务只在集群内部可访问
+      nodePort: 30007  # NodePort 类型服务的外部端口（指定范围为 30000-32767）
+  type: NodePort  # 服务类型为 NodePort，表示服务可以通过宿主机的 IP 和指定端口访问
