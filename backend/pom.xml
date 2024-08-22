@@ -13,6 +13,7 @@
         <module>teach-service</module>
         <module>blog-service</module>
         <module>user-center-service</module>
+        <module>gateway</module>
     </modules>
 
 
