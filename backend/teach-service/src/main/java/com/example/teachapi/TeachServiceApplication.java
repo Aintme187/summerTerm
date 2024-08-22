@@ -3,6 +3,7 @@ package com.example.teachapi;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Hello world!
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @MapperScan
 @SpringBootApplication
+@MapperScan
 public class TeachServiceApplication {
 
     public static void main(String[] args) {
