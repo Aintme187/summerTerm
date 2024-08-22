@@ -9,9 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
  * Hello world!
  *
  */
-@MapperScan
 @SpringBootApplication
-@MapperScan
+@MapperScan("com.example.teachapi.dao.mapper")
 public class TeachServiceApplication {
 
     public static void main(String[] args) {
