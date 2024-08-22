@@ -16,5 +16,4 @@ public class UserCenterServiceApplication {
         SpringApplication.run(UserCenterServiceApplication.class, args);
         System.out.println("个人中心后端服务启动成功！");
     }
-
 }
