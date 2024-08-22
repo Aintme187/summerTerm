@@ -26,6 +26,7 @@ spring:
           uri: lb://user-center-service
           predicates:
             - Path=/users/**
+            - Path=/login/**
 
         - id: blog-service
           uri: lb://blog-service
