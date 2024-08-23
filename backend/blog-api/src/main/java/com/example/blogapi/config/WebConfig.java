@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
         //跨域配置，不可设置为*，不安全, 前后端分离项目，可能域名不一致
         //本地测试 端口不一致 也算跨域
         //以下代码允许8080端口访问接口服务
-        registry.addMapping("/**").allowedOrigins("http://localhost","http://localhost:80","http://frontend","http://frontend:80","http://47.94.206.220");
+        registry.addMapping("/**").allowedOrigins("http://localhost","http://frontend","http://47.94.206.220");
     }
 
     @Override
