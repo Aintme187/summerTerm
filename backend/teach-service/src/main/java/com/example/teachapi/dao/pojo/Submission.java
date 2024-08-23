@@ -32,4 +32,6 @@ public class Submission {
     private Long studentId;
 
     private String fileName;
+
+    private String studentName;
 }

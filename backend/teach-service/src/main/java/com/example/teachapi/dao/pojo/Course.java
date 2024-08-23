@@ -40,4 +40,6 @@ public class Course {
     private String room;
 
     private Long categoryId;
+
+    private String teacherName;
 }

@@ -1,7 +1,7 @@
 package com.example.teachapi.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.example.teachapi.dao.pojo.SysUser;
+import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.service.LoginService;
 import com.example.teachapi.utils.UserThreadLocal;
 import com.example.teachapi.vo.ErrorCode;

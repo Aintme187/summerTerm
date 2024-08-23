@@ -1,6 +1,6 @@
 package com.example.teachapi.utils;
 
-import com.example.teachapi.dao.pojo.SysUser;
+import com.example.teachapi.dao.dto.SysUser;
 
 
 public class UserThreadLocal {

@@ -1,6 +1,8 @@
 package com.example.teachapi.service.impl;
 
+import com.example.teachapi.client.sysUserClient;
 import com.example.teachapi.config.TeachingModuleConfig;
+import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.dao.mapper.*;
 import com.example.teachapi.dao.pojo.*;
 import com.example.teachapi.service.FileServiceForTeachingModule;
@@ -43,9 +45,9 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
     @Autowired
     private CurriculumMapper curriculumMapper;
     @Autowired
-    private SysUserMapper sysUserMapper;
-    @Autowired
     private QiniuUtilsForTeaching qiniuUtilsForTeaching;
+    @Autowired
+    private sysUserClient sysUserClient;
 
     @Override
     public List<TimetableVo> getCourseTable(Long teacherId) {
@@ -58,11 +60,16 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
             TimetableVo vo = new TimetableVo();
             vo.setDay(course.getDay());
             vo.setName(curriculum.getName());
-            vo.setContent(String.format("%d-%d周 %s %s",
+            vo.setContent(String.format(
+                    "%d-%d周 %s %s",
                     course.getWeekBegin(),
                     course.getWeekEnd(),
                     course.getRoom(),
-                    sysUserMapper.getNameById(teacherId))); // 假设 "哈哈哈" 是教师姓名，需要从教师表中获取具体的教师姓名
+                    //sysUserMapper.getNameById(teacherId)
+                    //((SysUser)sysUserClient.queryInfo(teacherId).getData()).getNickname()
+                    course.getTeacherName()
+                    )
+            ); // 假设 "哈哈哈" 是教师姓名，需要从教师表中获取具体的教师姓名
             vo.setSectionBegin(course.getSectionBegin());
             vo.setSectionEnd(course.getSectionEnd());
 
@@ -89,7 +96,10 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
                 ScApplicationVo vo = new ScApplicationVo();
                 vo.setScId(sc.getId());
                 vo.setStudentId(sc.getStudentId());
-                vo.setStudentName(sysUserMapper.getNameById(sc.getStudentId()));
+                vo.setStudentName(
+                        //sysUserMapper.getNameById(sc.getStudentId())
+                        ((SysUser)sysUserClient.queryInfo(sc.getStudentId()).getData()).getNickname()
+                );
                 vo.setCourseId(course.getId());
                 vo.setCourseName(curriculum.getName());
 
@@ -111,7 +121,10 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
                 AssistantApplicationVo vo = new AssistantApplicationVo();
                 vo.setAssistantId(assistant.getId());
                 vo.setStudentId(assistant.getStudentId());
-                vo.setStudentName(sysUserMapper.getNameById(assistant.getStudentId()));
+                vo.setStudentName(
+                        //sysUserMapper.getNameById(assistant.getStudentId())
+                        ((SysUser)sysUserClient.queryInfo(assistant.getStudentId()).getData()).getNickname()
+                );
                 vo.setCourseId(course.getId());
                 vo.setCourseName(curriculum.getName());
 

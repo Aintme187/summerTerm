@@ -1,7 +1,9 @@
 package com.example.teachapi.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.teachapi.client.sysUserClient;
 import com.example.teachapi.config.TeachingModuleConfig;
+import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.service.FileServiceForTeachingModule;
 import com.example.teachapi.service.LoginService;
 import com.example.teachapi.service.StudentLearningService;
@@ -48,13 +50,13 @@ public class StudentLearningServiceImpl implements StudentLearningService {
     @Autowired
     private CurriculumMapper curriculumMapper;
     @Autowired
-    private SysUserMapper sysUserMapper;
-    @Autowired
     private QiniuUtilsForTeaching qiniuUtilsForTeaching;
     @Autowired
     private LoginService loginService;
     @Autowired
     private ArticleMaterialMapper articleMaterialMapper;
+    @Autowired
+    private sysUserClient sysUserClient;
 
     @Override
     public List<TimetableVo> getCourseTable(Long studentId) {
@@ -72,7 +74,9 @@ public class StudentLearningServiceImpl implements StudentLearningService {
                     course.getWeekBegin(),
                     course.getWeekEnd(),
                     course.getRoom(),
-                    sysUserMapper.getNameById(course.getTeacherId()))); // 假设 "哈哈哈" 是教师姓名，需要从教师表中获取具体的教师姓名
+                    course.getTeacherName()
+                    )
+            ); // 假设 "哈哈哈" 是教师姓名，需要从教师表中获取具体的教师姓名
             vo.setSectionBegin(course.getSectionBegin());
             vo.setSectionEnd(course.getSectionEnd());
 
@@ -214,6 +218,9 @@ public class StudentLearningServiceImpl implements StudentLearningService {
             submission.setSubmissionUrl(fileName);
             submission.setTime(LocalDateTime.now());
             submission.setFileName(originalFilename);
+            submission.setStudentName(
+                    ((SysUser)sysUserClient.queryInfo(studentId).getData()).getNickname()
+            );
             submissionMapper.insert(submission);
             return Result.success(fileName);
         }
@@ -266,11 +273,10 @@ public class StudentLearningServiceImpl implements StudentLearningService {
                 .select("t.id as id", "t.enrollment as enrollment", "t.capacity as capacity",
                         "t.dept_name as dept_name", "t.week_begin as week_begin", "t.week_end as week_end",
                         "t.day as day", "t.section_begin as section_begin",
-                        "t.section_end as section_end", "t.room as room")
+                        "t.section_end as section_end", "t.room as room",
+                        "t.teacher_name as teacherName")
                 .select("curriculum.name as curriculumName", "curriculum.credit as credit", "curriculum.introduction as introduction")
-                .select("sys_user.nickname as teacherName")
                 .leftJoin("curriculum on t.curriculum_id = curriculum.id")
-                .leftJoin("sys_user on t.teacher_id = sys_user.id")
                 // 排除选过的课程组
                 .notExists("select * from sc t1 left join course t2 on t1.course_id = t2.id " +
                         "where t2.curriculum_id = t.curriculum_id " +
@@ -335,9 +341,6 @@ public class StudentLearningServiceImpl implements StudentLearningService {
                 case "credit":
                 case "introduction":
                     filterData.setName("curriculum." + filterData.getName());
-                    break;
-                case "teacherName":
-                    filterData.setName("sys_user.nickname");
                     break;
                 default:
                     filterData.setName("t." + filterData.getName());

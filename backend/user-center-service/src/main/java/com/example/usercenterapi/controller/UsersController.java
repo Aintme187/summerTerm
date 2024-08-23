@@ -34,7 +34,7 @@ public class UsersController {
 
     @GetMapping("getMyInfo")
     @CrossOrigin
-    public Result getMyInfo(Long id) {
+    public Result getMyInfo(@RequestParam Long id) {
         return sysUserService.getInfoById(id);
     }
 
