@@ -298,7 +298,7 @@ create table sc
             on update cascade on delete cascade
 );
 
-create definer = ybx@`%` trigger sc_delete
+create trigger sc_delete
     after delete
     on sc
     for each row
@@ -310,7 +310,7 @@ begin
     end if;
 end;
 
-create definer = ybx@`%` trigger sc_insert
+create trigger sc_insert
     after insert
     on sc
     for each row
@@ -322,7 +322,7 @@ begin
     end if;
 end;
 
-create definer = ybx@`%` trigger sc_update
+create trigger sc_update
     after update
     on sc
     for each row
