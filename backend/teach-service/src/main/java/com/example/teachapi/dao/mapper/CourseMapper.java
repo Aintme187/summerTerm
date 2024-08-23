@@ -22,15 +22,15 @@ public interface CourseMapper extends MPJBaseMapper<Course> {
 
     @Select("SELECT c.id AS courseId, cu.name AS courseName, c.teacher_id AS teacherId, c.teacher_name AS teacherName, " +
             "c.enrollment, c.capacity, c.dept_name AS deptName, cu.credit, cu.introduction " +
-            "FROM Course c " +
-            "LEFT JOIN Curriculum cu ON c.curriculum_id = cu.id " +
+            "FROM course c " +
+            "LEFT JOIN curriculum cu ON c.curriculum_id = cu.id " +
             "WHERE c.id NOT IN (SELECT course_id FROM SC WHERE student_id = #{studentId})")
     List<CourseVo> getAvailableCoursesByStudentId(@Param("studentId") Long studentId);
 
     @Select("SELECT c.id AS courseId, cu.name AS courseName, c.teacher_id AS teacherId, c.teacher_name AS teacherName, " +
             "c.enrollment, c.capacity, c.dept_name AS deptName, cu.credit, cu.introduction " +
-            "FROM Course c " +
-            "LEFT JOIN Curriculum cu ON c.curriculum_id = cu.id " +
+            "FROM course c " +
+            "LEFT JOIN curriculum cu ON c.curriculum_id = cu.id " +
             "WHERE c.id NOT IN (SELECT course_id FROM SC WHERE student_id = #{studentId})" +
             "AND cu.name = #{courseName}")
     List<CourseVo> getAvailableCoursesByStudentIdAndCourseName(@Param("studentId") Long studentId, @Param("courseName") String courseName);
@@ -38,9 +38,9 @@ public interface CourseMapper extends MPJBaseMapper<Course> {
     @Select("SELECT c.id AS courseId, cu.name AS courseName, c.enrollment, c.capacity, c.teacher_name AS teacherName, " +
             "c.dept_name AS deptName, cu.credit, cu.introduction, " +
             "c.week_begin, c.week_end, c.day, c.section_begin, c.section_end, c.room " +
-            "FROM SC sc " +
-            "LEFT JOIN Course c ON sc.course_id = c.id " +
-            "LEFT JOIN Curriculum cu ON c.curriculum_id = cu.id " +
+            "FROM sc sc " +
+            "LEFT JOIN course c ON sc.course_id = c.id " +
+            "LEFT JOIN curriculum cu ON c.curriculum_id = cu.id " +
             "WHERE sc.student_id = #{studentId} " +
             "GROUP BY c.id")
     List<CourseVo> getSelectedCoursesByStudentId(@Param("studentId") Long studentId);
@@ -48,9 +48,9 @@ public interface CourseMapper extends MPJBaseMapper<Course> {
     @Select("SELECT c.id AS courseId, cu.name AS courseName, c.enrollment, c.capacity, c.teacher_name AS teacherName, " +
             "c.dept_name AS deptName, cu.credit, cu.introduction, " +
             "c.week_begin, c.week_end, c.day, c.section_begin, c.section_end, c.room, c.category_id " +
-            "FROM SC sc " +
-            "LEFT JOIN Course c ON sc.course_id = c.id " +
-            "LEFT JOIN Curriculum cu ON c.curriculum_id = cu.id " +
+            "FROM sc sc " +
+            "LEFT JOIN course c ON sc.course_id = c.id " +
+            "LEFT JOIN curriculum cu ON c.curriculum_id = cu.id " +
             "WHERE sc.student_id = #{studentId} AND sc.status = 1 " +
             "GROUP BY c.id")
     List<CourseVo> getJoinedCoursesByStudentId(@Param("studentId") Long studentId);
@@ -58,8 +58,8 @@ public interface CourseMapper extends MPJBaseMapper<Course> {
     @Select("SELECT c.id AS courseId, cu.name AS courseName, c.enrollment, c.capacity, c.teacher_name AS teacherName, " +
             "c.dept_name AS deptName, cu.credit, cu.introduction, " +
             "c.week_begin, c.week_end, c.day, c.section_begin, c.section_end, c.room, c.category_id " +
-            "FROM Course c " +
-            "LEFT JOIN Curriculum cu ON c.curriculum_id = cu.id " +
+            "FROM course c " +
+            "LEFT JOIN curriculum cu ON c.curriculum_id = cu.id " +
             "WHERE c.teacher_id = #{teacherId}")
     List<CourseVo> getCourseVoByTeacherId(@Param("teacherId") Long teacherId);
 
@@ -69,9 +69,9 @@ public interface CourseMapper extends MPJBaseMapper<Course> {
     @Select("SELECT c.id AS courseId, cu.name AS courseName, c.enrollment, c.capacity, c.teacher_name AS teacherName, " +
             "c.dept_name AS deptName, cu.credit, cu.introduction, " +
             "c.week_begin, c.week_end, c.day, c.section_begin, c.section_end, c.room, c.category_id " +
-            "FROM Assistant a " +
-            "LEFT JOIN Course c ON a.course_id = c.id " +
-            "LEFT JOIN Curriculum cu ON c.curriculum_id = cu.id " +
+            "FROM assistant a " +
+            "LEFT JOIN course c ON a.course_id = c.id " +
+            "LEFT JOIN curriculum cu ON c.curriculum_id = cu.id " +
             "WHERE a.student_id = #{assistantId} AND a.status = 1 " +
             "GROUP BY c.id")
     List<CourseVo> getCourseVoByAssistantId(@Param("assistantId") Long assistantId);

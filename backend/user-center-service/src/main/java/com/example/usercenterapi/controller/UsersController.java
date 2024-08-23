@@ -38,6 +38,13 @@ public class UsersController {
         return sysUserService.getInfoById(id);
     }
 
+
+    /**
+     * ???
+     * @param id
+     * @param url
+     * @return
+     */
     @PutMapping("updateAvatar")
     @CrossOrigin
     public Result updateAvatar(Long id,String url) {

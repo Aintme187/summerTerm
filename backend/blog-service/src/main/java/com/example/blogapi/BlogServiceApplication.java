@@ -1,22 +1,18 @@
-package com.example.teachapi;
+package com.example.blogapi;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-/**
- * Hello world!
- *
- */
 @EnableFeignClients
 @SpringBootApplication
-@MapperScan("com.example.teachapi.dao.mapper")
-public class TeachServiceApplication {
+@MapperScan("com.example.blogapi.dao.mapper")
+public class BlogServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TeachServiceApplication.class, args);
-        System.out.println("教学后端服务启动成功！");
+        SpringApplication.run(BlogServiceApplication.class, args);
+        System.out.println("博客后端服务启动成功！");
     }
 
 }

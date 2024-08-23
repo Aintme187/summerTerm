@@ -14,6 +14,7 @@ import com.example.teachapi.vo.params.StudentLearningPageParam;
 import com.example.teachapi.dao.mapper.*;
 import com.example.teachapi.dao.pojo.*;
 import com.example.teachapi.vo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.query.MPJQueryWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,6 +207,7 @@ public class StudentLearningServiceImpl implements StudentLearningService {
 
     @Override
     public Result submitAssignment(Long studentId, Long assignmentId, MultipartFile multipartFile) {
+        ObjectMapper objectMapper = new ObjectMapper();
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
         boolean upload = qiniuUtilsForTeaching.upload(multipartFile, fileName);
@@ -219,7 +221,7 @@ public class StudentLearningServiceImpl implements StudentLearningService {
             submission.setTime(LocalDateTime.now());
             submission.setFileName(originalFilename);
             submission.setStudentName(
-                    ((SysUser)sysUserClient.queryInfo(studentId).getData()).getNickname()
+                    objectMapper.convertValue(sysUserClient.queryInfo(studentId).getData(), SysUser.class).getNickname()
             );
             submissionMapper.insert(submission);
             return Result.success(fileName);

@@ -10,6 +10,7 @@ import com.example.teachapi.service.TeacherTeachingService;
 import com.example.teachapi.utils.QiniuUtilsForTeaching;
 import com.example.teachapi.utils.StringUtilsForTeaching;
 import com.example.teachapi.vo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,7 +67,6 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
                     course.getWeekEnd(),
                     course.getRoom(),
                     //sysUserMapper.getNameById(teacherId)
-                    //((SysUser)sysUserClient.queryInfo(teacherId).getData()).getNickname()
                     course.getTeacherName()
                     )
             ); // 假设 "哈哈哈" 是教师姓名，需要从教师表中获取具体的教师姓名
@@ -88,6 +88,7 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
     public List<ScApplicationVo> showScApplication(Long teacherId){
         List<Course> teachingCourses = courseMapper.getCoursesByTeacherId(teacherId);
         List<ScApplicationVo> scApplications = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         for (Course course : teachingCourses) {
             List<Sc> scApplicationList = scMapper.selectApplicationByCourseId(course.getId());
@@ -98,7 +99,7 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
                 vo.setStudentId(sc.getStudentId());
                 vo.setStudentName(
                         //sysUserMapper.getNameById(sc.getStudentId())
-                        ((SysUser)sysUserClient.queryInfo(sc.getStudentId()).getData()).getNickname()
+                        objectMapper.convertValue(sysUserClient.queryInfo(sc.getStudentId()).getData(), SysUser.class).getNickname()
                 );
                 vo.setCourseId(course.getId());
                 vo.setCourseName(curriculum.getName());
@@ -113,6 +114,7 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
     public List<AssistantApplicationVo> showAssistantApplication(Long teacherId){
         List<Course> teachingCourses = courseMapper.getCoursesByTeacherId(teacherId);
         List<AssistantApplicationVo> assistantApplications = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         for (Course course : teachingCourses) {
             List<Assistant> AssitantApplicationList = assistantMapper.selectApplicationByCourseId(course.getId());
@@ -123,7 +125,7 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
                 vo.setStudentId(assistant.getStudentId());
                 vo.setStudentName(
                         //sysUserMapper.getNameById(assistant.getStudentId())
-                        ((SysUser)sysUserClient.queryInfo(assistant.getStudentId()).getData()).getNickname()
+                        objectMapper.convertValue(sysUserClient.queryInfo(assistant.getStudentId()).getData(), SysUser.class).getNickname()
                 );
                 vo.setCourseId(course.getId());
                 vo.setCourseName(curriculum.getName());

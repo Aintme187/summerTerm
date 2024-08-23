@@ -8,14 +8,18 @@ import com.example.blogapi.dao.mapper.UserMessageMapper;
 import com.example.blogapi.dao.pojo.*;
 import com.example.blogapi.service.CommentsService;
 import com.example.blogapi.service.SysUserService;
+import com.example.blogapi.service.UserClient;
 import com.example.blogapi.utils.UserThreadLocal;
 import com.example.blogapi.vo.CommentVo;
 import com.example.blogapi.vo.Result;
 import com.example.blogapi.vo.UserVo;
 import com.example.blogapi.vo.params.CommentParam;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.User;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +44,9 @@ public class CommentsServiceImpl implements CommentsService {
     @Autowired
     private UserMessageMapper userMessageMapper;
 
+    @Autowired
+    private UserClient userClient;
+
     public CommentVo copy(Comment comment){
         CommentVo commentVo = new CommentVo();
         BeanUtils.copyProperties(comment,commentVo);
@@ -47,7 +54,14 @@ public class CommentsServiceImpl implements CommentsService {
         //时间格式化
         commentVo.setCreateDate(simpleDateFormat.format(new Date(System.currentTimeMillis())));
         Long authorId = comment.getAuthorId();
-        UserVo userVo = sysUserService.findUserVoById(authorId);
+        Result result = userClient.getMyInfo(authorId);
+        Object data = result.getData();
+        ObjectMapper objectMapper = new ObjectMapper();
+        SysUser sysUser = objectMapper.convertValue(data, SysUser.class);
+
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(sysUser,userVo);
+
         commentVo.setAuthor(userVo);
         //评论的评论
         List<CommentVo> commentVoList = findCommentsByParentId(comment.getId());

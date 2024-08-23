@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("upload")
+@RequestMapping("users/upload")
 public class UploadController {
 
     @Autowired

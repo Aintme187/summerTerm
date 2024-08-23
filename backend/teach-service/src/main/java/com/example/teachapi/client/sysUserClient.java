@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "user-center-service")
 public interface sysUserClient {
 
-    @GetMapping("getMyInfo")
+    @GetMapping("/users/getMyInfo")
     Result queryInfo(@RequestParam("id") Long id);
 }
