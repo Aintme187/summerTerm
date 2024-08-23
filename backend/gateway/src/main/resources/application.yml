@@ -39,7 +39,7 @@ spring:
               - DELETE
               - OPTIONS
             allowed-origins:
-              - http://localhost:5173
+             - http://localhost:5173
             exposed-headers: "*"
             allow-credentials: true # 是否允许凭证传递，true表示允许
             maxAge: 36000
