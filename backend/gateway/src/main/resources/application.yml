@@ -38,8 +38,9 @@ spring:
             - Path=/messages/**
             - Path=/tags/**
             - Path=/upload/**
+
       globalcors: # 全局跨域配置
-        dd-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
         cors-configurations: # 跨域配置列表
           '[/**]': # 匹配所有路径
             allowed-headers: "*" # 允许的请求头，*表示允许所有
@@ -49,6 +50,9 @@ spring:
               - PUT
               - DELETE
               - OPTIONS
-            allowed-origins: "*" # 允许的请求来源，*表示允许所有
+
+            allowed-origins:
+              - http://localhost:5173
             exposed-headers: "*"
             allow-credentials: true # 是否允许凭证传递，true表示允许
+            maxAge: 36000
