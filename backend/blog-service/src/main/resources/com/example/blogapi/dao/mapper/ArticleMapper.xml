@@ -6,8 +6,7 @@
     <!--List<Tag> findTagsByArticleId(Long articleId);-->
     <select id="getMyBlogs" parameterType="long" resultType="com.example.blogapi.dao.pojo.Article">
         select a.id, comment_counts, a.create_date, summary, title, view_counts, weight, author_id, body_id, category_id, like_counts from article a
-        join sys_user u on a.author_id = u.id
-        where u.id = #{id};
+        where a.author_id = #{id};
     </select>
     <select id="getRelated" resultType="com.example.blogapi.dao.pojo.Article">
         select a.title, a.id from article a join article_tag at on a.id = at.article_id where at.tag_id in
@@ -18,7 +17,6 @@
     </select>
     <select id="getMyBlogsWithCategory" resultType="com.example.blogapi.dao.pojo.Article">
         select a.id, comment_counts, a.create_date, summary, title, view_counts, weight, author_id, body_id, category_id, like_counts from article a
-        join sys_user u on a.author_id = u.id
-        where u.id = #{userId} and a.category_id = #{categoryId};
+        where a.author_id = #{userId} and a.category_id = #{categoryId};
     </select>
 </mapper>
