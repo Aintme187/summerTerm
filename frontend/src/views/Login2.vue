@@ -208,7 +208,7 @@ export default {
                 showClose: true,
                 message: '请先登录哦'
               })
-              next({path: '/'});
+              this.$router.push({path: '/'});
             });
           }).catch((error) => {
             if (error !== 'error') {
