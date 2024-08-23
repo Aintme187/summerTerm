@@ -1,6 +1,6 @@
 package com.example.manageapi.utils;
 
-import com.example.manageapi.dao.pojo.SysUser;
+import com.example.manageapi.dao.dto.SysUser;
 
 
 public class UserThreadLocal {

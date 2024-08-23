@@ -1,7 +1,7 @@
 package com.example.manageapi.controller;
 
 import com.example.manageapi.common.aop.LogAnnotation;
-import com.example.manageapi.dao.pojo.Curriculum;
+import com.example.manageapi.dao.dto.Curriculum;
 import com.example.manageapi.service.AdminCurriculumService;
 import com.example.manageapi.vo.Result;
 import com.example.manageapi.vo.params.AdminPageParam;

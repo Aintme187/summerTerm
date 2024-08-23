@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFeignClients
 @SpringBootApplication
-@MapperScan("com.example.teachapi.dao.mapper")
+@MapperScan
 public class TeachServiceApplication {
 
     public static void main(String[] args) {

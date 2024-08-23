@@ -1,6 +1,9 @@
 package com.example.usercenterapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.usercenterapi.dao.mapper.SysUserMapper;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.service.LoginService;
@@ -13,6 +16,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.List;
 
 @CrossOrigin
 @Service
@@ -144,5 +149,55 @@ public class SysUserServiceImpl implements SysUserService {
         user.setAvatar(url);
         sysUserMapper.updateById(user);
         return Result.success(user);
+    }
+
+    @Override
+    public SysUser selectById(Long id) {
+        return sysUserMapper.selectById(id);
+    }
+
+    @Override
+    public Page<SysUser> selectPage(Page page, QueryWrapper queryWrapper){
+        return sysUserMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    public void insert(SysUser sysUser) {
+        sysUserMapper.insert(sysUser);
+    }
+
+    @Override
+    public void updateById(SysUser sysUser) {
+        sysUserMapper.updateById(sysUser);
+    }
+
+    @Override
+    public Result deleteById(Long id) {
+        try {
+            sysUserMapper.deleteById(id);
+            return Result.success(null);
+        } catch (Exception e) {
+            return Result.fail(ErrorCode.DATA_ERROR);
+        }
+    }
+
+    @Override
+    public List<SysUser> selectBatchIds(List<Long> ids) {
+        return sysUserMapper.selectBatchIds(ids);
+    }
+
+    @Override
+    public Result deleteBatchIds(List<Long> ids) {
+        try {
+            sysUserMapper.deleteBatchIds(ids);
+            return Result.success(null);
+        } catch (Exception e) {
+            return Result.fail(ErrorCode.DATA_ERROR);
+        }
+    }
+
+    @Override
+    public void update(SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper) {
+        sysUserMapper.update(sysUser, queryWrapper);
     }
 }

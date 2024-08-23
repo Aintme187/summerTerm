@@ -3,3 +3,7 @@ spring:
     sentinel:
       transport:
         dashboard: localhost:8090
+
+feign:
+  okhttp:
+    enabled: true # 开启OKHttp连接池支持

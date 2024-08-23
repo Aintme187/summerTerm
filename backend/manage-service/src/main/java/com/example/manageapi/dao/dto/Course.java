@@ -1,4 +1,4 @@
-package com.example.manageapi.dao.pojo;
+package com.example.manageapi.dao.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -40,4 +40,6 @@ public class Course {
     private String room;
 
     private Long categoryId;
+
+    private String teacherName;
 }

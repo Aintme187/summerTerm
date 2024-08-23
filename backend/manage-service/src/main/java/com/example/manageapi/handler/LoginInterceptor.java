@@ -1,7 +1,7 @@
 package com.example.manageapi.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.example.manageapi.dao.pojo.SysUser;
+import com.example.manageapi.dao.dto.SysUser;
 import com.example.manageapi.service.LoginService;
 import com.example.manageapi.utils.UserThreadLocal;
 import com.example.manageapi.vo.ErrorCode;

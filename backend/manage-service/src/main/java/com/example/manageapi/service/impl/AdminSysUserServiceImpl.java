@@ -3,8 +3,8 @@ package com.example.manageapi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.manageapi.dao.mapper.SysUserMapper;
-import com.example.manageapi.dao.pojo.SysUser;
+import com.example.manageapi.client.SysuserClient;
+import com.example.manageapi.dao.dto.SysUser;
 import com.example.manageapi.service.AdminSysUserService;
 import com.example.manageapi.service.SysUserService;
 import com.example.manageapi.vo.AdminSysUserVo;
@@ -29,10 +29,9 @@ import java.util.List;
 public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Autowired
-    private SysUserMapper sysUserMapper;
-
-    @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysuserClient sysuserClient;
 
     private final String salt = "salt";
 
@@ -52,7 +51,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         if (FilterData.injectFilter(queryWrapper, filterDataList)) {
             AdminSysUserVo adminSysUserVo = new AdminSysUserVo();
             try {
-                Page<SysUser> sysUserPage = sysUserMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
+                Page<SysUser> sysUserPage = sysuserClient.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
                 adminSysUserVo.setAdminSysUserInfoList(sysUsers2adminSysUserInfos(sysUserPage.getRecords()));
                 adminSysUserVo.setAdminSysUserCount(sysUserPage.getTotal());
                 return Result.success(adminSysUserVo);
@@ -66,7 +65,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result getSysUserInfoById(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
+        SysUser sysUser = sysuserClient.selectById(id);
         if (sysUser == null) {
             return Result.fail(ErrorCode.NO_USER);
         }
@@ -94,7 +93,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         if (errorCode != null) return Result.fail(errorCode);
         try {
             sysUser.setPassword(DigestUtils.md5Hex(sysUser.getPassword() + salt));
-            sysUserMapper.insert(sysUser);
+            sysuserClient.insert(sysUser);
             return Result.success(null);
         } catch (Exception e) {
             return Result.fail(ErrorCode.DATA_ERROR);
@@ -118,7 +117,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         try {
             if (sysUser.getPassword() != null) sysUser.setPassword(DigestUtils.md5Hex(sysUser.getPassword() + salt));
             sysUser.setPermission(null);
-            sysUserMapper.updateById(sysUser);
+            sysuserClient.updateById(sysUser);
             return Result.success(null);
         } catch (Exception e) {
             return Result.fail(ErrorCode.DATA_ERROR);
@@ -127,29 +126,19 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result deleteSysUser(Long id) {
-        if (sysUserMapper.selectById(id) == null) {
+        if (sysuserClient.selectById(id) == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         } else {
-            try {
-                sysUserMapper.deleteById(id);
-                return Result.success(null);
-            } catch (Exception e) {
-                return Result.fail(ErrorCode.DATA_ERROR);
-            }
+            return sysuserClient.deleteById(id);
         }
     }
 
     @Override
     public Result batchDeleteSysUsers(List<Long> ids) {
-        if (sysUserMapper.selectBatchIds(ids).size() != ids.size()) {
+        if (sysuserClient.selectBatchIds(ids).size() != ids.size()) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         } else {
-            try {
-                sysUserMapper.deleteBatchIds(ids);
-                return Result.success(null);
-            } catch (Exception e) {
-                return Result.fail(ErrorCode.DATA_ERROR);
-            }
+            return sysuserClient.deleteBatchIds(ids);
         }
     }
 
@@ -173,7 +162,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         try {
             sysUser.setPassword(DigestUtils.md5Hex(sysUser.getPassword() + salt));
             sysUser.setPermission(null);
-            sysUserMapper.update(sysUser, updateWrapper);
+            sysuserClient.update(sysUser, updateWrapper);
             return Result.success(null);
         } catch (Exception e) {
             return Result.fail(ErrorCode.DATA_ERROR);

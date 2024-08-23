@@ -1,15 +1,13 @@
 package com.example.manageapi.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.manageapi.dao.mapper.CategoryMapper;
-import com.example.manageapi.dao.mapper.CourseMapper;
-import com.example.manageapi.dao.mapper.CurriculumMapper;
-import com.example.manageapi.dao.mapper.SysUserMapper;
-import com.example.manageapi.dao.pojo.Category;
-import com.example.manageapi.dao.pojo.Course;
-import com.example.manageapi.dao.pojo.SysUser;
+import com.example.manageapi.client.BlogClient;
+import com.example.manageapi.client.teachClient;
+import com.example.manageapi.client.SysuserClient;
+import com.example.manageapi.dao.dto.Category;
+import com.example.manageapi.dao.dto.Course;
+import com.example.manageapi.dao.dto.SysUser;
 import com.example.manageapi.service.AdminCourseService;
 import com.example.manageapi.vo.AdminCourseInfoVo;
 import com.example.manageapi.vo.AdminCourseVo;
@@ -27,18 +25,12 @@ import java.util.List;
 
 @Service
 public class AdminCourseServiceImpl implements AdminCourseService {
-
     @Autowired
-    private CourseMapper courseMapper;
-
+    private SysuserClient sysuserClient;
     @Autowired
-    private CurriculumMapper curriculumMapper;
-
+    private teachClient teachClient;
     @Autowired
-    private SysUserMapper sysUserMapper;
-
-    @Autowired
-    private CategoryMapper categoryMapper;
+    private BlogClient blogClient;
 
     // 工厂方法（使用同一个 queryWrapper 会相互干扰）构建跨表查询，注意主表被重命名为 t
     private MPJQueryWrapper<Course> queryWrapperFactory() {
@@ -77,7 +69,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
         List<FilterData> filterDataList = adminPageParam.getFilterDataList();
         if (FilterData.injectFilter(queryWrapper, filterDataList, AdminCourseServiceImpl::mapFunction)) {
             AdminCourseVo adminCourseVo = new AdminCourseVo();
-            Page<AdminCourseInfoVo> page = courseMapper.selectJoinPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), AdminCourseInfoVo.class, queryWrapper);
+            Page<AdminCourseInfoVo> page = teachClient.selectJoinPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), AdminCourseInfoVo.class, queryWrapper);
             adminCourseVo.setCourseVoList(page.getRecords());
             adminCourseVo.setCourseVoCount(page.getTotal());
             return Result.success(adminCourseVo);
@@ -88,7 +80,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
 
     @Override
     public Result getCourseInfoById(Long id) {
-        Course course = courseMapper.selectById(id);
+        Course course = teachClient.selectById(id);
         if (course == null) return Result.fail(ErrorCode.NO_COURSE);
         return Result.success(course);
     }
@@ -105,19 +97,20 @@ public class AdminCourseServiceImpl implements AdminCourseService {
         if (course.getDeptName() == null) course.setDeptName("");
         if (course.getRoom() == null) course.setRoom("");
         course = noNull(course);
-        String curriculumName = curriculumMapper.selectById(course.getCurriculumId()).getName();
-        String nickname = sysUserMapper.selectById(course.getTeacherId()).getNickname();
+        String curriculumName = teachClient.selectCurriculumById(course.getCurriculumId()).getName();
+        String nickname = sysuserClient.selectById(course.getTeacherId()).getNickname();
         Category category = new Category(null, "http://seicj6zi6.hb-bkt.clouddn.com/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E9%99%A2.jpg",
                 curriculumName + "-" + nickname, curriculumName + "-" + nickname + "-" + course.getDeptName() + "-" + "课程讨论区");
-        categoryMapper.insert(category);
+        blogClient.insert(category);
         course.setCategoryId(category.getId());
-        courseMapper.insert(course);
+        course.setTeacherName(nickname);
+        teachClient.insert(course);
         return Result.success(null);
     }
 
     @Override
     public Result updateCourse(Course course) {
-        Course oldCourse = courseMapper.selectById(course.getId());
+        Course oldCourse = teachClient.selectById(course.getId());
         if (oldCourse == null) return Result.fail(ErrorCode.NO_COURSE);
         ErrorCode errorCode = errorInCourse(course, oldCourse.getEnrollment());
         if (errorCode != null) {
@@ -128,23 +121,23 @@ public class AdminCourseServiceImpl implements AdminCourseService {
         course.setEnrollment(null);
         if (course.getDeptName() == null) course.setDeptName("");
         if (course.getRoom() == null) course.setRoom("");
-        courseMapper.updateById(course);
+        teachClient.updateById(course);
         return Result.success(null);
     }
 
     @Override
     public Result deleteCourse(Long id) {
-        if (courseMapper.selectById(id) == null) return Result.fail(ErrorCode.NO_CURRICULUM);
-        courseMapper.deleteById(id);
+        if (teachClient.selectById(id) == null) return Result.fail(ErrorCode.NO_CURRICULUM);
+        teachClient.deleteById(id);
         return Result.success(null);
     }
 
     @Override
     public Result batchDeleteCourses(List<Long> ids) {
-        if (courseMapper.selectBatchIds(ids).size() != ids.size()) {
+        if (teachClient.selectBatchIds(ids).size() != ids.size()) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         } else {
-            courseMapper.deleteBatchIds(ids);
+            teachClient.deleteBatchIds(ids);
             return Result.success(null);
         }
     }
@@ -153,23 +146,13 @@ public class AdminCourseServiceImpl implements AdminCourseService {
     public Result batchUpdateCourses(BatchUpdateCoursesParam batchUpdateCoursesParam) {
         List<Long> ids = batchUpdateCoursesParam.getIds();
         Course course = batchUpdateCoursesParam.getCourse();
-        Long maxEnrollment = courseMapper.selectOne(new QueryWrapper<Course>()
-                .select("MAX(enrollment) as enrollment")
-                .in("id", ids)).getEnrollment();
-        Long maxWeekBegin = courseMapper.selectOne(new QueryWrapper<Course>()
-                .select("MAX(week_begin) as weekBegin")
-                .in("id", ids)).getWeekBegin();
-        Long minWeekEnd = courseMapper.selectOne(new QueryWrapper<Course>()
-                .select("MIN(week_end) as weekEnd")
-                .in("id", ids)).getWeekEnd();
+        Long maxEnrollment = teachClient.selectCertainOne("MAX(enrollment) as enrollment", ids).getEnrollment();
+        Long maxWeekBegin = teachClient.selectCertainOne("MAX(week_begin) as weekBegin", ids).getWeekBegin();
+        Long minWeekEnd = teachClient.selectCertainOne("MIN(week_end) as weekEnd", ids).getWeekEnd();
         maxWeekBegin = course.getWeekBegin() == null ? maxWeekBegin : course.getWeekBegin();
         minWeekEnd = course.getWeekEnd() == null ? minWeekEnd : course.getWeekEnd();
-        Long maxSectionBegin = courseMapper.selectOne(new QueryWrapper<Course>()
-                .select("MAX(section_begin) as sectionBegin")
-                .in("id", ids)).getSectionBegin();
-        Long minSectionEnd = courseMapper.selectOne(new QueryWrapper<Course>()
-                .select("MIN(section_end) as sectionEnd")
-                .in("id", ids)).getSectionEnd();
+        Long maxSectionBegin = teachClient.selectCertainOne("MAX(section_begin) as sectionBegin", ids).getSectionBegin();
+        Long minSectionEnd = teachClient.selectCertainOne("MIN(section_end) as sectionEnd", ids).getSectionEnd();
         maxSectionBegin = course.getSectionBegin() == null ? maxSectionBegin : course.getSectionBegin();
         minSectionEnd = course.getSectionEnd() == null ? minSectionEnd : course.getSectionEnd();
         ErrorCode errorCode = errorInCourse(course, maxEnrollment);
@@ -184,27 +167,27 @@ public class AdminCourseServiceImpl implements AdminCourseService {
             return Result.fail(ErrorCode.ILLEGAL_SECTION);
         course.setId(null);
         course.setEnrollment(null);
-        courseMapper.update(course, new LambdaQueryWrapper<Course>().in(Course::getId, ids));
+        teachClient.update(course, new LambdaUpdateWrapper<Course>().in(Course::getId, ids));
         return Result.success(null);
     }
 
     private Course noNull(Course course) {
-        Course newCourse = new Course(null, null, 0L, 1L, null, "", 1L, 1L, 1L, 1L, 1L, "", null);
+        Course newCourse = new Course(null, null, 0L, 1L, null, "", 1L, 1L, 1L, 1L, 1L, "", null, "");
         BeanUtils.copyProperties(course, newCourse);
         return newCourse;
     }
 
     private ErrorCode errorInCourse(Course course, Long enrollment) {
         Course oldCourse = null;
-        if (course.getId() != null) oldCourse = courseMapper.selectById(course.getId());
+        if (course.getId() != null) oldCourse = teachClient.selectById(course.getId());
         Long weekBegin = (course.getWeekBegin() == null && oldCourse != null) ? oldCourse.getWeekBegin() : course.getWeekBegin();
         Long weekEnd = (course.getWeekEnd() == null && oldCourse != null) ? oldCourse.getWeekEnd() : course.getWeekEnd();
         Long sectionBegin = (course.getSectionBegin() == null && oldCourse != null) ? oldCourse.getSectionBegin() : course.getSectionBegin();
         Long sectionEnd = (course.getSectionEnd() == null && oldCourse != null) ? oldCourse.getSectionEnd() : course.getSectionEnd();
         SysUser sysUser = null;
-        if (course.getTeacherId() != null) sysUser = sysUserMapper.selectById(course.getTeacherId());
+        if (course.getTeacherId() != null) sysUser = sysuserClient.selectById(course.getTeacherId());
 
-        if (course.getCurriculumId() != null && curriculumMapper.selectById(course.getCurriculumId()) == null)
+        if (course.getCurriculumId() != null && teachClient.selectCurriculumById(course.getCurriculumId()) == null)
             return ErrorCode.NO_CURRICULUM;
         if (course.getCapacity() != null && (course.getCapacity() <= 0 || (enrollment != null && course.getCapacity() < enrollment)))
             return ErrorCode.CAPACITY_LT_ENROLLMENT;

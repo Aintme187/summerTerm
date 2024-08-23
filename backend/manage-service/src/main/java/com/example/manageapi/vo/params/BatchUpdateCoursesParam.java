@@ -1,6 +1,6 @@
 package com.example.manageapi.vo.params;
 
-import com.example.manageapi.dao.pojo.Course;
+import com.example.manageapi.dao.dto.Course;
 import lombok.Data;
 
 import java.util.List;

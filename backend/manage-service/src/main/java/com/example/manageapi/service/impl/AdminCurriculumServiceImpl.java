@@ -1,10 +1,10 @@
 package com.example.manageapi.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.manageapi.dao.mapper.CurriculumMapper;
-import com.example.manageapi.dao.pojo.Curriculum;
+import com.example.manageapi.client.teachClient;
+import com.example.manageapi.dao.dto.Curriculum;
 import com.example.manageapi.service.AdminCurriculumService;
 import com.example.manageapi.vo.AdminCurriculumVo;
 import com.example.manageapi.vo.ErrorCode;
@@ -20,9 +20,8 @@ import java.util.List;
 
 @Service
 public class AdminCurriculumServiceImpl implements AdminCurriculumService {
-
     @Autowired
-    private CurriculumMapper curriculumMapper;
+    private teachClient teachClient;
 
     @Override
     public Result listCurriculumPage(AdminPageParam adminPageParam) {
@@ -30,7 +29,7 @@ public class AdminCurriculumServiceImpl implements AdminCurriculumService {
         List<FilterData> filterDataList = adminPageParam.getFilterDataList();
         if (FilterData.injectFilter(queryWrapper, filterDataList)) {
             AdminCurriculumVo adminCurriculumVo = new AdminCurriculumVo();
-            Page<Curriculum> page = curriculumMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
+            Page<Curriculum> page = teachClient.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
             adminCurriculumVo.setCurriculumList(page.getRecords());
             adminCurriculumVo.setCurriculumCount(page.getTotal());
             return Result.success(adminCurriculumVo);
@@ -41,7 +40,7 @@ public class AdminCurriculumServiceImpl implements AdminCurriculumService {
 
     @Override
     public Result getCurriculumInfoById(Long id) {
-        Curriculum curriculum = curriculumMapper.selectById(id);
+        Curriculum curriculum = teachClient.selectCurriculumById(id);
         if (curriculum == null) return Result.fail(ErrorCode.NO_CURRICULUM);
         return Result.success(curriculum);
     }
@@ -53,33 +52,31 @@ public class AdminCurriculumServiceImpl implements AdminCurriculumService {
         if (errorCode != null) return Result.fail(errorCode);
         if (curriculum.getIntroduction() == null) curriculum.setIntroduction("");
         curriculum.setId(null);
-        curriculumMapper.insert(curriculum);
+        teachClient.insert(curriculum);
         return Result.success(null);
     }
 
     @Override
     public Result updateCurriculum(Curriculum curriculum) {
-        if (curriculumMapper.selectById(curriculum.getId()) == null) return Result.fail(ErrorCode.NO_CURRICULUM);
+        if (teachClient.selectCurriculumById(curriculum.getId()) == null) return Result.fail(ErrorCode.NO_CURRICULUM);
         ErrorCode errorCode = errorInCurriculum(curriculum);
         if (errorCode != null) return Result.fail(errorCode);
-        curriculumMapper.updateById(curriculum);
+        teachClient.updateById(curriculum);
         return Result.success(null);
     }
 
     @Override
     public Result deleteCurriculum(Long id) {
-        if (curriculumMapper.selectById(id) == null) return Result.fail(ErrorCode.NO_CURRICULUM);
-        curriculumMapper.deleteById(id);
-        return Result.success(null);
+        if (teachClient.selectCurriculumById(id) == null) return Result.fail(ErrorCode.NO_CURRICULUM);
+        return teachClient.deleteCurriculumById(id);
     }
 
     @Override
     public Result batchDeleteCurriculums(List<Long> ids) {
-        if (curriculumMapper.selectBatchIds(ids).size() != ids.size()) {
+        if (teachClient.selectCurriculumBatchIds(ids).size() != ids.size()) {
             return Result.fail(ErrorCode.PARAMS_ERROR);
         } else {
-            curriculumMapper.deleteBatchIds(ids);
-            return Result.success(null);
+            return teachClient.deleteCurriculumBatchIds(ids);
         }
     }
 
@@ -90,7 +87,7 @@ public class AdminCurriculumServiceImpl implements AdminCurriculumService {
         ErrorCode errorCode = errorInCurriculum(curriculum);
         if (errorCode != null) return Result.fail(errorCode);
         curriculum.setId(null);
-        curriculumMapper.update(curriculum, new LambdaQueryWrapper<Curriculum>().in(Curriculum::getId, ids));
+        teachClient.update(curriculum, new LambdaUpdateWrapper<Curriculum>().in(Curriculum::getId, ids));
         return Result.success(null);
     }
 

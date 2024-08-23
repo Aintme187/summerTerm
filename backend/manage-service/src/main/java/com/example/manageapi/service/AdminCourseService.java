@@ -1,6 +1,6 @@
 package com.example.manageapi.service;
 
-import com.example.manageapi.dao.pojo.Course;
+import com.example.manageapi.dao.dto.Course;
 import com.example.manageapi.vo.Result;
 import com.example.manageapi.vo.params.AdminPageParam;
 import com.example.manageapi.vo.params.BatchUpdateCoursesParam;

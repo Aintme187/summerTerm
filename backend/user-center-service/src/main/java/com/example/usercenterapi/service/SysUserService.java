@@ -1,9 +1,14 @@
 package com.example.usercenterapi.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.UserVo;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.List;
 
 @CrossOrigin
 public interface SysUserService {
@@ -31,4 +36,20 @@ public interface SysUserService {
     Result getInfoById(Long id);
 
     Result updateAvatar(Long id,String url);
+
+    SysUser selectById(Long id);
+
+    Page<SysUser> selectPage(Page page, QueryWrapper queryWrapper);
+
+    void insert(SysUser sysUser);
+
+    void updateById(SysUser sysUser);
+
+    Result deleteById(Long id);
+
+    List<SysUser> selectBatchIds(List<Long> ids);
+
+    Result deleteBatchIds(List<Long> ids);
+
+    void update(SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper);
 }
