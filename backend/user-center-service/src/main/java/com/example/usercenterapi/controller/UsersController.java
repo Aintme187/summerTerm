@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("users")
-@CrossOrigin
 public class UsersController {
     @Autowired
     private SysUserService sysUserService;
@@ -27,13 +26,11 @@ public class UsersController {
 
 
     @PutMapping("updateUser")
-    @CrossOrigin
     public Result updateUser(@RequestBody SysUser sysUser) {
         return sysUserService.updateUser(sysUser);
     }
 
     @GetMapping("getMyInfo")
-    @CrossOrigin
     public Result getMyInfo(@RequestParam Long id) {
         return sysUserService.getInfoById(id);
     }
@@ -46,7 +43,6 @@ public class UsersController {
      * @return
      */
     @PutMapping("updateAvatar")
-    @CrossOrigin
     public Result updateAvatar(Long id,String url) {
         return sysUserService.updateAvatar(id,url);
     }
