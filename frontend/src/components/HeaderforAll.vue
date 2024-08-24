@@ -13,7 +13,7 @@
         :default-active="this.$router.path"
         >
             <div class="flex-grow"> 
-                <img class="img" src="http://seicj6zi6.hb-bkt.clouddn.com/%E8%BD%AF%E4%BB%B6%E5%AD%A6%E9%99%A2.jpg"> 
+                <img class="img" src="http://sio7mkwqx.hb-bkt.clouddn.com/R.jpg"> 
                 <span class="title">教务系统</span>
             </div>
 
