@@ -12,6 +12,7 @@ import com.example.usercenterapi.vo.ErrorCode;
 import com.example.usercenterapi.vo.LoginUserVo;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.UserVo;
+import com.example.usercenterapi.vo.params.AdminPageParam;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -157,8 +158,8 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Page<SysUser> selectPage(Page page, QueryWrapper queryWrapper){
-        return sysUserMapper.selectPage(page, queryWrapper);
+    public Page<SysUser> selectPage(AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper){
+        return sysUserMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
     }
 
     @Override

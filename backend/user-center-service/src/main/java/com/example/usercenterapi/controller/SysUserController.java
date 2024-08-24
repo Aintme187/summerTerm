@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.service.SysUserService;
 import com.example.usercenterapi.vo.Result;
+import com.example.usercenterapi.vo.params.AdminPageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class SysUserController {
     @Autowired
     SysUserService sysUserService;
 
-    @GetMapping("findByAccount")
+    @GetMapping("/findByAccount")
     @CrossOrigin
     public SysUser findByAccount(@RequestParam String account) {
         return sysUserService.findUserByAccount(account);
@@ -33,8 +34,8 @@ public class SysUserController {
     }
 
     @GetMapping("/selectPage")
-    public Page<SysUser> selectPage(@RequestParam Page page, QueryWrapper queryWrapper) {
-        return sysUserService.selectPage(page, queryWrapper);
+    public Page<SysUser> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper) {
+        return sysUserService.selectPage(adminPageParam, queryWrapper);
     }
 
     @PostMapping("/insert")

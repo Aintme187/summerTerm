@@ -69,7 +69,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
         List<FilterData> filterDataList = adminPageParam.getFilterDataList();
         if (FilterData.injectFilter(queryWrapper, filterDataList, AdminCourseServiceImpl::mapFunction)) {
             AdminCourseVo adminCourseVo = new AdminCourseVo();
-            Page<AdminCourseInfoVo> page = teachClient.selectJoinPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), AdminCourseInfoVo.class, queryWrapper);
+            Page<AdminCourseInfoVo> page = teachClient.selectJoinPage(adminPageParam, queryWrapper);
             adminCourseVo.setCourseVoList(page.getRecords());
             adminCourseVo.setCourseVoCount(page.getTotal());
             return Result.success(adminCourseVo);

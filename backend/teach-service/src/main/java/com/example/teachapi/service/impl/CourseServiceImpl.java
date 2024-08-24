@@ -10,6 +10,7 @@ import com.example.teachapi.dao.pojo.Course;
 import com.example.teachapi.service.CourseService;
 import com.example.teachapi.vo.ErrorCode;
 import com.example.teachapi.vo.Result;
+import com.example.teachapi.vo.params.AdminPageParam;
 import com.github.yulichang.query.MPJQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Page<AdminCourseInfoVo> selectJoinPage(Page page, Class aClass, MPJQueryWrapper queryWrapper){
-        return courseMapper.selectJoinPage(page, aClass, queryWrapper);
+    public Page<AdminCourseInfoVo> selectJoinPage(AdminPageParam adminPageParam, MPJQueryWrapper<Course> queryWrapper){
+        return courseMapper.selectJoinPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), AdminCourseInfoVo.class, queryWrapper);
     }
 
     @Override

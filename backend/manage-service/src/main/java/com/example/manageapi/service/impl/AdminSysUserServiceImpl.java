@@ -51,7 +51,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         if (FilterData.injectFilter(queryWrapper, filterDataList)) {
             AdminSysUserVo adminSysUserVo = new AdminSysUserVo();
             try {
-                Page<SysUser> sysUserPage = sysuserClient.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
+                Page<SysUser> sysUserPage = sysuserClient.selectPage(adminPageParam, queryWrapper);
                 adminSysUserVo.setAdminSysUserInfoList(sysUsers2adminSysUserInfos(sysUserPage.getRecords()));
                 adminSysUserVo.setAdminSysUserCount(sysUserPage.getTotal());
                 return Result.success(adminSysUserVo);
@@ -65,7 +65,9 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result getSysUserInfoById(Long id) {
+        System.out.println("-------Right In!!!----------");
         SysUser sysUser = sysuserClient.selectById(id);
+        System.out.println(sysUser);
         if (sysUser == null) {
             return Result.fail(ErrorCode.NO_USER);
         }

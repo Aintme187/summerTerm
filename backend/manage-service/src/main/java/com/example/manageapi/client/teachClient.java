@@ -7,6 +7,7 @@ import com.example.manageapi.dao.dto.Course;
 import com.example.manageapi.dao.dto.Curriculum;
 import com.example.manageapi.vo.AdminCourseInfoVo;
 import com.example.manageapi.vo.Result;
+import com.example.manageapi.vo.params.AdminPageParam;
 import com.github.yulichang.query.MPJQueryWrapper;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public interface teachClient {
     Course selectById(@RequestParam("id") Long id);
 
     @GetMapping("/course/selectJoinPage")
-    Page<AdminCourseInfoVo> selectJoinPage(@RequestParam Page page, Class aClass, MPJQueryWrapper<Course> queryWrapper);
+    Page<AdminCourseInfoVo> selectJoinPage(@RequestParam AdminPageParam adminPageParam, MPJQueryWrapper<Course> queryWrapper);
 
     @GetMapping("/course/selectCertainOne")
     Course selectCertainOne(@RequestParam String certain, List<Long> ids);
@@ -46,7 +47,7 @@ public interface teachClient {
     Curriculum selectCurriculumById(@RequestParam("id") Long id);
 
     @GetMapping("/curriculum/selectPage")
-    Page<Curriculum> selectPage(@RequestParam Page page, QueryWrapper queryWrapper);
+    Page<Curriculum> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper);
 
     @PostMapping("/curriculum/insert")
     void insert(@RequestParam Curriculum curriculum);

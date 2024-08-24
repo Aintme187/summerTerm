@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.teachapi.dao.pojo.Curriculum;
 import com.example.teachapi.service.CurriculumService;
 import com.example.teachapi.vo.Result;
+import com.example.teachapi.vo.params.AdminPageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,8 @@ public class CurriculumController {
     }
 
     @GetMapping("/selectPage")
-    public Page<Curriculum> selectPage(@RequestParam Page page, QueryWrapper queryWrapper) {
-        return curriculumService.selectPage(page, queryWrapper);
+    public Page<Curriculum> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper) {
+        return curriculumService.selectPage(adminPageParam, queryWrapper);
     }
 
     @PostMapping("/insert")

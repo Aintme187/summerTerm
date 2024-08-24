@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.teachapi.dao.pojo.Curriculum;
 import com.example.teachapi.vo.Result;
+import com.example.teachapi.vo.params.AdminPageParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface CurriculumService {
     Curriculum selectById(Long id);
 
-    Page<Curriculum> selectPage(Page page, QueryWrapper queryWrapper);
+    Page<Curriculum> selectPage(AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper);
 
     void insert(Curriculum curriculum);
 

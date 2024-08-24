@@ -8,6 +8,7 @@ import com.example.teachapi.dao.pojo.Curriculum;
 import com.example.teachapi.service.CurriculumService;
 import com.example.teachapi.vo.ErrorCode;
 import com.example.teachapi.vo.Result;
+import com.example.teachapi.vo.params.AdminPageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,8 +29,8 @@ public class CurriculumServiceImpl implements CurriculumService {
     }
 
     @Override
-    public Page<Curriculum> selectPage(Page page, QueryWrapper queryWrapper){
-        return curriculumMapper.selectPage(page, queryWrapper);
+    public Page<Curriculum> selectPage(AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper){
+        return curriculumMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
     }
 
     @Override

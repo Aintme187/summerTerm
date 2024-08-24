@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.manageapi.dao.dto.SysUser;
 import com.example.manageapi.vo.Result;
+import com.example.manageapi.vo.params.AdminPageParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public interface SysuserClient {
     SysUser selectById(@RequestParam("id") Long id);
 
     @GetMapping("/sysUser/selectPage")
-    Page<SysUser> selectPage(@RequestParam Page page, QueryWrapper queryWrapper);
+    Page<SysUser> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper);
 
     @PostMapping("/sysUser/insert")
     void insert(@RequestParam SysUser sysUser);

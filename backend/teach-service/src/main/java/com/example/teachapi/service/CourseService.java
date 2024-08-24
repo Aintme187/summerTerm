@@ -6,6 +6,7 @@ import com.example.teachapi.dao.dto.AdminCourseInfoVo;
 import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.dao.pojo.Course;
 import com.example.teachapi.vo.Result;
+import com.example.teachapi.vo.params.AdminPageParam;
 import com.github.yulichang.query.MPJQueryWrapper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public interface CourseService {
     Course selectById(Long id);
 
-    Page<AdminCourseInfoVo> selectJoinPage(Page page, Class aClass, MPJQueryWrapper queryWrapper);
+    Page<AdminCourseInfoVo> selectJoinPage(AdminPageParam adminPageParam, MPJQueryWrapper<Course> queryWrapper);
 
     Course selectCertainOne(String certain, List<Long> ids);
 

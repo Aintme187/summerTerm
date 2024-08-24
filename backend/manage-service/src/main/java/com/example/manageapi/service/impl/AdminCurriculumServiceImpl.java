@@ -29,7 +29,7 @@ public class AdminCurriculumServiceImpl implements AdminCurriculumService {
         List<FilterData> filterDataList = adminPageParam.getFilterDataList();
         if (FilterData.injectFilter(queryWrapper, filterDataList)) {
             AdminCurriculumVo adminCurriculumVo = new AdminCurriculumVo();
-            Page<Curriculum> page = teachClient.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
+            Page<Curriculum> page = teachClient.selectPage(adminPageParam, queryWrapper);
             adminCurriculumVo.setCurriculumList(page.getRecords());
             adminCurriculumVo.setCurriculumCount(page.getTotal());
             return Result.success(adminCurriculumVo);
