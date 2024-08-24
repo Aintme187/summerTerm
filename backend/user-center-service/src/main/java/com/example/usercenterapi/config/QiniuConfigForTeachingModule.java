@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QiniuConfigForTeachingModule {
 
-    @Value("${qiniu.accessKey}")
+    @Value("xdfPX4CjTgI9pzLfNa2gTnTYLdNI9EdLZU_y4uYg")
     private String accessKey;
 
-    @Value("${qiniu.secretKey}")
+    @Value("ZE0DCzmUjYaFQqmjFbyb_i4aeH9ZYNgAUDS00QbE")
     private String secretKey;
 
     @Bean

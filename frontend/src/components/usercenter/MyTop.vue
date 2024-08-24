@@ -310,6 +310,9 @@
                 console.log('上传头像hhhhhhhhhhhh'+this.uploadRef)
                 if(this.$refs.uploadRef){
                     this.$refs.uploadRef.submit()
+                    getMyInfoService(this.$store.state.id)
+                    console.log("state.id")
+                    console.log(this.$store.state.id)
                 }
                 else{
                     ElMessage({
@@ -325,6 +328,7 @@
                 updateMyAvatarService(this.userdata.id,response.data).then((res)=>{
                     this.userdata=res;
                 })
+                
                 this.dialog2Visible=false
                 window.location.reload();
             }

@@ -14,11 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class QiniuUtils {
 
-    public static  final String url = "http://seicj6zi6.hb-bkt.clouddn.com/";
+    public static  final String url = "http://sio7mkwqx.hb-bkt.clouddn.com/";
 
-    @Value("Z05kRUCyxx63HuYtyRlE-pfukpdMB5CviXy3_1a5")
+
+    @Value("xdfPX4CjTgI9pzLfNa2gTnTYLdNI9EdLZU_y4uYg")
     private  String accessKey;
-    @Value("EA3t0sAtCAkTWUWLvT7uCx38N6fNCn27c22igHOX")
+    @Value("ZE0DCzmUjYaFQqmjFbyb_i4aeH9ZYNgAUDS00QbE")
     private  String accessSecretKey;
 
     public boolean upload(MultipartFile file, String fileName) {
@@ -28,7 +29,7 @@ public class QiniuUtils {
         //...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
         //...生成上传凭证，然后准备上传
-        String bucket = "mysoftwarecareernew";
+        String bucket = "summerterm";
         //默认不指定key的情况下，以文件内容的hash值作为文件名
         try {
             byte[] uploadBytes = file.getBytes();

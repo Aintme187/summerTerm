@@ -24,10 +24,10 @@ public class QiniuUtilsForTeaching {
     @Autowired
     private Auth auth;
 
-    @Value("${qiniu.bucket}")
+    @Value("summerterm")
     private String bucket;
 
-    public static final String url = "https://sdrmvgv9u.hb-bkt.clouddn.com";
+    public static final String url = "http://sio7mkwqx.hb-bkt.clouddn.com/";
 
     public boolean upload(MultipartFile file, String fileName){
 

@@ -1,5 +1,6 @@
-package com.example.blogapi.config;
-import com.example.blogapi.handler.LoginInterceptor;
+package com.example.usercenterapi.config;
+
+import com.example.usercenterapi.handler.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
