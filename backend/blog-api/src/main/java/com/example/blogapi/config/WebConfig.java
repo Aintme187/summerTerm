@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/categorys/create")
                 .addPathPatterns("/tags/create")
                 .addPathPatterns("/articles/like/{id}")
-                .addPathPatterns("/api")
-                .addPathPatterns("/admin");
+                .addPathPatterns("/api/**")
+                .addPathPatterns("/admin/**");
     }
 }
