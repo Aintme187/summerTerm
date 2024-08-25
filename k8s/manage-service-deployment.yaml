@@ -1,0 +1,22 @@
+apiVersion: apps/v1  # Kubernetes API 版本
+kind: Deployment  # 资源类型，表示这是一个 Deployment 对象
+metadata:
+  name: manage-service  # Deployment 的名字
+spec:
+  replicas: 1  # 指定要运行的副本数量
+  selector:
+    matchLabels:
+      app: manage-service  # 与模板中的标签匹配
+  template:
+    metadata:
+      labels:
+        app: manage-service  # 给 Pod 打标签，便于 Service 选择
+    spec:
+      containers:
+      - name: manage-service  # 容器的名称
+        image: your-docker-registry/manage-service:latest  # Docker 镜像地址和标签
+        ports:
+        - containerPort: 7888  # 容器内暴露的端口
+        env:
+        - name: SPRING_PROFILES_ACTIVE  # 环境变量的名称
+          value: "prod"  # 环境变量的值
