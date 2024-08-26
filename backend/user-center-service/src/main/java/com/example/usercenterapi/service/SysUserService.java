@@ -8,6 +8,7 @@ import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.UserVo;
 import com.example.usercenterapi.vo.params.AdminPageParam;
+import com.example.usercenterapi.vo.params.BatchUpdateSysUsersParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
@@ -53,5 +54,5 @@ public interface SysUserService {
 
     Result deleteBatchIds(List<Long> ids);
 
-    void update(SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper);
+    Result update(BatchUpdateSysUsersParam batchUpdateSysUsersParam);
 }

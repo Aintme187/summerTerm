@@ -8,6 +8,7 @@ import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.service.SysUserService;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.params.AdminPageParam;
+import com.example.usercenterapi.vo.params.BatchUpdateSysUsersParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,7 +66,7 @@ public class SysUserController {
     }
 
     @PutMapping("/update")
-    void update(@RequestBody SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper) {
-        sysUserService.update(sysUser, queryWrapper);
+    Result update(BatchUpdateSysUsersParam batchUpdateSysUsersParam) {
+        return sysUserService.update(batchUpdateSysUsersParam);
     }
 }

@@ -133,32 +133,8 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result batchUpdateSysUsers(BatchUpdateSysUsersParam batchUpdateSysUsersParam) {
-        List<Long> ids = batchUpdateSysUsersParam.getIds();
-        SysUserInfoVo sysUserInfoVo = batchUpdateSysUsersParam.getSysUserInfoVo();
-        /*
-        因为可能更新为空字符串 ""
-        所以指定 null 为不更新
-         */
-        if (sysUserInfoVo.getPassword() != null) {
-//            sysUserInfoVo.setPassword(DigestUtils.md5Hex(sysUserInfoVo.getPassword()));
-        }
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserInfoVo, sysUser);
-        ErrorCode errorCode = errorInSysUser(sysUser);
-        if (errorCode != null) return Result.fail(errorCode);
-        LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.in(SysUser::getId, ids);
-        try {
-            sysUser.setPassword(DigestUtils.md5Hex(sysUser.getPassword() + salt));
-            sysUser.setPermission(null);
-            sysuserClient.update(sysUser, updateWrapper);
-            return Result.success(null);
-        } catch (Exception e) {
-            return Result.fail(ErrorCode.DATA_ERROR);
-        }
+        return sysuserClient.update(batchUpdateSysUsersParam);
     }
-
-
 
     /**
      * 检查 sysUserInfoVo 中的错误
