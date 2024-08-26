@@ -37,14 +37,13 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // dir('backend') {
-                    //     sh 'mvn clean package'
-                    // }
-                    // // 使用 NodeJS 构建前端
-                    // dir('frontend') {
-                    //     // sh 'npm install'
-                    //     sh 'npm run build'
-                    // }
+                    dir('backend') {
+                        sh 'mvn clean package'
+                    }
+                    dir('frontend') {
+                        // sh 'npm install'
+                        sh 'npm run build'
+                    }
                     sh 'echo "Building the application..."'
                 }
             }
@@ -92,39 +91,35 @@ pipeline {
         stage('Dockerize') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-1', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        // 登录 Docker Hub
-                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        dir('backend') {
-                            dir('blog-service'){
-                                sh 'docker build -t aintme/summer-term-blog-service:latest .'
-                                // sh 'docker push aintme/summer-term-blog-service:latest'
-                            }
-                            dir('gateway'){
-                                sh 'docker build -t aintme/summer-term-gateway:latest .'
-                                // sh 'docker push aintme/summer-term-gateway:latest'
-                            }
-                            dir('manage-service'){
-                                sh 'docker build -t aintme/summer-term-manage-service:latest .'
-                                // sh 'docker push aintme/summer-term-manage-service:latest'
-                            }
-                            dir('teach-service'){
-                                sh 'docker build -t aintme/summer-term-teach-service:latest .'
-                                // sh 'docker push aintme/summer-term-teach-service:latest'
-                            }
-                            dir('user-center-service'){
-                                sh 'docker build -t aintme/summer-term-user-center-service:latest .'
-                                // sh 'docker push aintme/summer-term-user-center-service:latest'
-                            }
+                    dir('backend') {
+                        dir('blog-service'){
+                            sh 'docker build -t aintme/summer-term-blog-service:latest .'
+                            // sh 'docker push aintme/summer-term-blog-service:latest'
                         }
-                        dir('frontend') {
-                            sh 'docker build -t aintme/summer-term-frontend:latest .'
-                            // sh 'docker push aintme/summer-term-frontend:latest'
+                        dir('gateway'){
+                            sh 'docker build -t aintme/summer-term-gateway:latest .'
+                            // sh 'docker push aintme/summer-term-gateway:latest'
                         }
-                        dir('mysql') {
-                            sh 'docker build -t aintme/summer-term-mysql:latest .'
-                            // sh 'docker push aintme/summer-term-mysql:latest'
+                        dir('manage-service'){
+                            sh 'docker build -t aintme/summer-term-manage-service:latest .'
+                            // sh 'docker push aintme/summer-term-manage-service:latest'
                         }
+                        dir('teach-service'){
+                            sh 'docker build -t aintme/summer-term-teach-service:latest .'
+                            // sh 'docker push aintme/summer-term-teach-service:latest'
+                        }
+                        dir('user-center-service'){
+                            sh 'docker build -t aintme/summer-term-user-center-service:latest .'
+                            // sh 'docker push aintme/summer-term-user-center-service:latest'
+                        }
+                    }
+                    dir('frontend') {
+                        sh 'docker build -t aintme/summer-term-frontend:latest .'
+                        // sh 'docker push aintme/summer-term-frontend:latest'
+                    }
+                    dir('mysql') {
+                        sh 'docker build -t aintme/summer-term-mysql:latest .'
+                        // sh 'docker push aintme/summer-term-mysql:latest'
                     }
                 }
             }
