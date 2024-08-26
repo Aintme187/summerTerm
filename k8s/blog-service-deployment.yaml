@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: blog-service  # 容器的名称
-        image: your-docker-registry/blog-service:latest  # Docker 镜像地址和标签
+        image: aintme/summer-term-blog-service:latest  # Docker 镜像地址和标签
         ports:
         - containerPort: 9888  # 容器内暴露的端口
         env:

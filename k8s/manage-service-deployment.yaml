@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: manage-service  # 容器的名称
-        image: your-docker-registry/manage-service:latest  # Docker 镜像地址和标签
+        image: aintme/summer-term-manage-service:latest  # Docker 镜像地址和标签
         ports:
         - containerPort: 7888  # 容器内暴露的端口
         env:

@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql  # Deployment 的名称
-  namespace: my-application  # 指定资源所在的命名空间
 spec:
   selector:
     matchLabels:
@@ -19,13 +18,7 @@ spec:
         image: aintme/summer-term-mysql:latest  # 使用的 MySQL 镜像版本
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: summerTerm  # 设置 MySQL 的 root 用户密码
-        - name: MYSQL_DATABASE
-          value: summerTerm  # 初始化时创建的数据库名称
-        - name: MYSQL_USER
-          value: summerTerm  # 初始化时创建的用户名称
-        - name: MYSQL_PASSWORD
-          value: summerTerm  # 初始化时创建的用户密码
+          value: 123456  # 设置 MySQL 的 root 用户密码
         ports:
         - containerPort: 3306  # 容器内部 MySQL 服务的端口
         volumeMounts:
