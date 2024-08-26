@@ -45,9 +45,7 @@ public class CourseServiceImpl implements CourseService {
         return new MPJQueryWrapper<Course>()
                 .selectAll(Course.class)
                 .select("curriculum.name as curriculumName", "curriculum.credit as credit", "curriculum.introduction as introduction")
-                .select("sys_user.nickname as teacherName")
-                .leftJoin("curriculum on t.curriculum_id = curriculum.id")
-                .leftJoin("sys_user on t.teacher_id = sys_user.id");
+                .leftJoin("curriculum on t.curriculum_id = curriculum.id");
     }
 
     public static List<FilterData> mapFunction(List<FilterData> filterDataList) {

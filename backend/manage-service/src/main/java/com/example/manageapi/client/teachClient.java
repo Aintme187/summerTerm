@@ -16,8 +16,8 @@ public interface teachClient {
     @GetMapping("/course/selectById")
     Course selectById(@RequestParam("id") Long id);
 
-    @GetMapping("/course/selectJoinPage")
-    Result selectJoinPage(@RequestParam AdminPageParam adminPageParam);
+    @PostMapping("/course/selectJoinPage")
+    Result selectJoinPage(@RequestBody AdminPageParam adminPageParam);
 
     @PostMapping("/course/insert")
     void insert(@RequestBody Course course);
@@ -40,7 +40,7 @@ public interface teachClient {
     @GetMapping("/curriculum/selectById")
     Curriculum selectCurriculumById(@RequestParam("id") Long id);
 
-    @GetMapping("/curriculum/selectPage")
+    @PostMapping("/curriculum/selectPage")
     Result selectPage(@RequestBody AdminPageParam adminPageParam);
 
     @PostMapping("/curriculum/insert")
