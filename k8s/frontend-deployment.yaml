@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend  # Deployment 的名称
-  namespace: my-application  # 指定资源所在的命名空间
 spec:
   selector:
     matchLabels:
