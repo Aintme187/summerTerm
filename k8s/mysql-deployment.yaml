@@ -16,6 +16,7 @@ spec:
       containers:
       - name: mysql  # 容器的名称
         image: aintme/summer-term-mysql:latest  # 使用的 MySQL 镜像版本
+        imagePullPolicy: Never # 禁止从远程仓库拉取镜像
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: 123456  # 设置 MySQL 的 root 用户密码

@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: user-center-service  # 容器的名称
-        image: your-docker-registry/user-center-service:latest  # Docker 镜像地址和标签
+        image: aintme/user-center-service:latest  # Docker 镜像地址和标签
+        imagePullPolicy: Never # 禁止从远程仓库拉取镜像
         ports:
         - containerPort: 5888  # 容器内暴露的端口
         env:
