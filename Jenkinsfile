@@ -1,10 +1,5 @@
 pipeline {
     agent any
-
-    tools {
-        // 安装配置为 "maven" 的 Maven 版本，并将其添加到路径中。
-        maven "maven"
-    }
     
     environment {
         KUBECONFIG = '"C:\\Users\\15252\\.kube\\config"'
