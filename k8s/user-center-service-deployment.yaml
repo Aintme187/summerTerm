@@ -19,4 +19,4 @@ spec:
         - containerPort: 5888  # 容器内暴露的端口
         env:
         - name: SPRING_PROFILES_ACTIVE  # 环境变量的名称
-          value: "prod"  # 环境变量的值
+          value: "prod"  # 环境变量的值 
