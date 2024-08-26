@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.usercenterapi.dao.dto.TryAdminPageParam;
 import com.example.usercenterapi.dao.mapper.SysUserMapper;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.service.LoginService;

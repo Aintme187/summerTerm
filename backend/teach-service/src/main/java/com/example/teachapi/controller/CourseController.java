@@ -30,7 +30,7 @@ public class CourseController {
         return courseService.selectById(id);
     }
 
-    @GetMapping("/selectJoinPage")
+    @PostMapping("/selectJoinPage")
     Result selectJoinPage(@RequestBody AdminPageParam adminPageParam) {
         return courseService.selectJoinPage(adminPageParam);
     }

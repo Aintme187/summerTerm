@@ -10,8 +10,6 @@ public class SysUserInfoVo {
 
     private String nickname;
 
-    private String avatar;
-
     private String email;
 
     private String mobilePhoneNumber;

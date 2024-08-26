@@ -25,7 +25,7 @@ public class CurriculumController {
         return curriculumService.selectById(id);
     }
 
-    @GetMapping("/selectPage")
+    @PostMapping("/selectPage")
     public Result selectPage(@RequestBody AdminPageParam adminPageParam) {
         return curriculumService.selectPage(adminPageParam);
     }
