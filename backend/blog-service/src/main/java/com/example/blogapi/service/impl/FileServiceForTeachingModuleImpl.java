@@ -34,10 +34,10 @@ public class FileServiceForTeachingModuleImpl implements FileServiceForTeachingM
     @Autowired
     private Auth auth;
 
-    @Value("seicj6zi6.hb-bkt.clouddn.com")
+    @Value("sio7mkwqx.hb-bkt.clouddn.com")
     private String domainForArticle;
 
-    @Value("${qiniu.path}")
+    @Value("sio7mkwqx.hb-bkt.clouddn.com")
     private String domain;
 
     @Autowired

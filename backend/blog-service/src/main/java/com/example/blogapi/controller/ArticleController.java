@@ -2,8 +2,10 @@ package com.example.blogapi.controller;
 
 import com.example.blogapi.common.aop.LogAnnotation;
 import com.example.blogapi.common.cache.Cache;
+import com.example.blogapi.dao.pojo.Material;
 import com.example.blogapi.dao.pojo.Tag;
 import com.example.blogapi.service.ArticleService;
+import com.example.blogapi.service.StudentLearningService;
 import com.example.blogapi.vo.ArticleVo;
 import com.example.blogapi.vo.Result;
 import com.example.blogapi.vo.params.ArticleParam;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +23,8 @@ import java.util.List;
 @RestController
 @RequestMapping("articles")
 public class ArticleController {
+    @Autowired
+    private StudentLearningService studentLearningService;
 
     @Autowired
     private ArticleService articleService;
@@ -83,5 +88,24 @@ public class ArticleController {
     @PostMapping("hot/{id}")
     public Result hotByUser(@PathVariable("id") Long userId){
         return articleService.hotByUser(userId);
+    }
+    @GetMapping("/materials")
+    public List<Material> getMaterialByArticleId(@RequestParam Long articleId) {
+        return studentLearningService.getMaterialByArticleId(articleId);
+    }
+
+    /**
+     * 获取课程资料打开链接
+     * @param materialId
+     * @return
+     */
+    @GetMapping("/download")
+    public ResponseEntity<Result> downloadMaterial(@RequestParam Long materialId) {
+        ResponseEntity<Result> res = studentLearningService.getMaterialDownloadUrl(materialId);
+        return res;
+    }
+    @GetMapping("/materials/download")
+    public ResponseEntity<Result> downloadMaterialForArticle(@RequestParam Long materialId) {
+        return studentLearningService.downloadMaterialForArticle(materialId);
     }
 }

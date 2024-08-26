@@ -99,7 +99,7 @@ export const getMaterialService = (courseId) => {
 }
 
 export const getMaterialForArticle= (articleId) => {
-  return request.get('/api/students/materials/article', {
+  return request.get('/articles/materials', {
     params: {
       articleId
     }
@@ -116,7 +116,7 @@ export const downloadMaterialService = (materialId) => {
 }
 
 export const downloadMaterialForArticle = (materialId) => {
-  return request.get('/api/students/download/article', {
+  return request.get('/articles/materials/download', {
     params: {
       materialId
     }
