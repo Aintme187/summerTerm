@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    tools {
+        maven "maven"
+        nodejs "nodejs"
+    }
     
     environment {
         KUBECONFIG = '"C:\\Users\\15252\\.kube\\config"'
