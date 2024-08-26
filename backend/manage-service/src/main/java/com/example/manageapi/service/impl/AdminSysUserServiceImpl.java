@@ -14,6 +14,7 @@ import com.example.manageapi.vo.SysUserInfoVo;
 import com.example.manageapi.vo.params.AdminPageParam;
 import com.example.manageapi.vo.params.BatchUpdateSysUsersParam;
 import com.example.manageapi.vo.params.FilterData;
+import com.example.manageapi.vo.params.TryAdminPageParam;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
     private SysUserService sysUserService;
     @Autowired
     private SysuserClient sysuserClient;
+    @Autowired
+    private TryAdminPageParam tryAdminPageParam;
 
     private final String salt = "salt";
 
@@ -48,10 +51,14 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
     public Result listSysUserPage(AdminPageParam adminPageParam) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         List<FilterData> filterDataList = adminPageParam.getFilterDataList();
+
+        tryAdminPageParam.setAdminPageParam(adminPageParam);
+
         if (FilterData.injectFilter(queryWrapper, filterDataList)) {
             AdminSysUserVo adminSysUserVo = new AdminSysUserVo();
             try {
-                Page<SysUser> sysUserPage = sysuserClient.selectPage(adminPageParam, queryWrapper);
+                tryAdminPageParam.setQueryWrapper(queryWrapper);
+                Page<SysUser> sysUserPage = sysuserClient.selectPage(tryAdminPageParam);
                 adminSysUserVo.setAdminSysUserInfoList(sysUsers2adminSysUserInfos(sysUserPage.getRecords()));
                 adminSysUserVo.setAdminSysUserCount(sysUserPage.getTotal());
                 return Result.success(adminSysUserVo);

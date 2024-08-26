@@ -3,6 +3,7 @@ package com.example.usercenterapi.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.usercenterapi.dao.dto.TryAdminPageParam;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.service.SysUserService;
 import com.example.usercenterapi.vo.Result;
@@ -33,18 +34,18 @@ public class SysUserController {
         return sysUserService.selectById(id);
     }
 
-    @GetMapping("/selectPage")
-    public Page<SysUser> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper) {
-        return sysUserService.selectPage(adminPageParam, queryWrapper);
+    @PostMapping("/selectPage")
+    public Page<SysUser> selectPage(@RequestBody TryAdminPageParam tryadminPageParam) {
+        return sysUserService.selectPage(tryadminPageParam);
     }
 
     @PostMapping("/insert")
-    public void insert(@RequestParam SysUser sysUser) {
+    public void insert(@RequestBody SysUser sysUser) {
         sysUserService.insert(sysUser);
     }
 
     @PutMapping("/updateById")
-    public void updateById(@RequestParam SysUser sysUser) {
+    public void updateById(@RequestBody SysUser sysUser) {
         sysUserService.updateById(sysUser);
     }
 

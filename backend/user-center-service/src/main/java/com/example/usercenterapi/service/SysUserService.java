@@ -3,6 +3,7 @@ package com.example.usercenterapi.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.usercenterapi.dao.dto.TryAdminPageParam;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.UserVo;
@@ -40,7 +41,7 @@ public interface SysUserService {
 
     SysUser selectById(Long id);
 
-    Page<SysUser> selectPage(AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper);
+    Page<SysUser> selectPage(TryAdminPageParam tryAdminPageParam);
 
     void insert(SysUser sysUser);
 

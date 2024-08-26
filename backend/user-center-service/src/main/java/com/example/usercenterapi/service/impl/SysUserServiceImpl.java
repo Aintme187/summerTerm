@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.usercenterapi.dao.dto.TryAdminPageParam;
 import com.example.usercenterapi.dao.mapper.SysUserMapper;
 import com.example.usercenterapi.dao.pojo.SysUser;
 import com.example.usercenterapi.service.LoginService;
@@ -13,6 +14,7 @@ import com.example.usercenterapi.vo.LoginUserVo;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.UserVo;
 import com.example.usercenterapi.vo.params.AdminPageParam;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -158,7 +160,10 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Page<SysUser> selectPage(AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper){
+    public Page<SysUser> selectPage(TryAdminPageParam tryAdminPageParam){
+        AdminPageParam adminPageParam=tryAdminPageParam.getAdminPageParam();
+
+        QueryWrapper<SysUser> queryWrapper=tryAdminPageParam.getQueryWrapper();
         return sysUserMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
     }
 
