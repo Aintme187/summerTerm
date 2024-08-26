@@ -100,28 +100,28 @@ pipeline {
                             }
                             dir('gateway'){
                                 sh 'docker build -t aintme/summer-term-gateway:latest .'
-                                sh 'docker push aintme/summer-term-gateway:latest .'
+                                sh 'docker push aintme/summer-term-gateway:latest'
                             }
                             dir('manage-service'){
                                 sh 'docker build -t aintme/summer-term-manage-service:latest .'
-                                sh 'docker push aintme/summer-term-manage-service:latest .'
+                                sh 'docker push aintme/summer-term-manage-service:latest'
                             }
                             dir('teach-service'){
                                 sh 'docker build -t aintme/summer-term-teach-service:latest .'
-                                sh 'docker push aintme/summer-term-teach-service:latest .'
+                                sh 'docker push aintme/summer-term-teach-service:latest'
                             }
                             dir('user-center-service'){
                                 sh 'docker build -t aintme/summer-term-user-center-service:latest .'
-                                sh 'docker push aintme/summer-term-user-center-service:latest .'
+                                sh 'docker push aintme/summer-term-user-center-service:latest'
                             }
                         }
                         dir('frontend') {
                             sh 'docker build -t aintme/summer-term-frontend:latest .'
-                            sh 'docker push aintme/summer-term-frontend:latest .'
+                            sh 'docker push aintme/summer-term-frontend:latest'
                         }
                         dir('mysql') {
                             sh 'docker build -t aintme/summer-term-mysql:latest .'
-                            sh 'docker push aintme/summer-term-mysql:latest .'
+                            sh 'docker push aintme/summer-term-mysql:latest'
                         }
                     }
                 }
