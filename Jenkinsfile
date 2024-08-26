@@ -40,8 +40,7 @@ pipeline {
                     }
                     // 使用 NodeJS 构建前端
                     dir('frontend') {
-                        sh 'npm install'
-                        // sh 'npm install element-plus@latest'
+                        // sh 'npm install'
                         sh 'npm run build'
                     }
                 }
