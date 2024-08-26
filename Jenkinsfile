@@ -96,7 +96,7 @@ pipeline {
                         dir('backend') {
                             dir('blog-service'){
                                 sh 'docker build -t aintme/summer-term-blog-service:latest .'
-                                sh 'docker push aintme/summer-term-blog-service:latest .'
+                                sh 'docker push aintme/summer-term-blog-service:latest'
                             }
                             dir('gateway'){
                                 sh 'docker build -t aintme/summer-term-gateway:latest .'
