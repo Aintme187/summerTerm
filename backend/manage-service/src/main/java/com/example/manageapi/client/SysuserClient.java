@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.manageapi.dao.dto.SysUser;
 import com.example.manageapi.vo.Result;
 import com.example.manageapi.vo.params.AdminPageParam;
+import com.example.manageapi.vo.params.BatchUpdateSysUsersParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,5 @@ public interface SysuserClient {
     Result deleteBatchIds(@RequestParam List<Long> ids);
 
     @PutMapping("/sysUser/update")
-    void update(@RequestBody SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper);
+    Result update(@RequestBody BatchUpdateSysUsersParam batchUpdateSysUsersParam);
 }
