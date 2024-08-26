@@ -40,12 +40,12 @@ public class CourseController {
     }
 
     @PostMapping("/insert")
-    public void insert(@RequestParam Course course) {
+    public void insert(@RequestBody Course course) {
         courseService.insert(course);
     }
 
     @PutMapping("/updateById")
-    public void updateById(@RequestParam Course course) {
+    public void updateById(@RequestBody Course course) {
         courseService.updateById(course);
     }
 

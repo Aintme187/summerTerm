@@ -26,10 +26,10 @@ public interface teachClient {
     Course selectCertainOne(@RequestParam String certain, List<Long> ids);
 
     @PostMapping("/course/insert")
-    void insert(@RequestParam Course course);
+    void insert(@RequestBody Course course);
 
     @PutMapping("/course/updateById")
-    void updateById(@RequestParam Course course);
+    void updateById(@RequestBody Course course);
 
     @DeleteMapping("/course/deleteById")
     Result deleteById(@RequestParam Long id);
