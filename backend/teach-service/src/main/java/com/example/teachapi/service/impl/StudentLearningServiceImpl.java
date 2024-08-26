@@ -1,7 +1,7 @@
 package com.example.teachapi.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.teachapi.client.sysUserClient;
+import com.example.teachapi.client.SysUserClient;
 import com.example.teachapi.config.TeachingModuleConfig;
 import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.service.FileServiceForTeachingModule;
@@ -57,7 +57,7 @@ public class StudentLearningServiceImpl implements StudentLearningService {
     @Autowired
     private ArticleMaterialMapper articleMaterialMapper;
     @Autowired
-    private sysUserClient sysUserClient;
+    private SysUserClient sysUserClient;
 
     @Override
     public List<TimetableVo> getCourseTable(Long studentId) {

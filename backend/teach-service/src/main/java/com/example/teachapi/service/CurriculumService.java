@@ -1,11 +1,9 @@
 package com.example.teachapi.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.teachapi.dao.pojo.Curriculum;
 import com.example.teachapi.vo.Result;
 import com.example.teachapi.vo.params.AdminPageParam;
+import com.example.teachapi.vo.params.BatchUpdateCurriculumsParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 public interface CurriculumService {
     Curriculum selectById(Long id);
 
-    Page<Curriculum> selectPage(AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper);
+    Result selectPage(AdminPageParam adminPageParam);
 
     void insert(Curriculum curriculum);
 
@@ -26,5 +24,5 @@ public interface CurriculumService {
 
     Result deleteBatchIds(List<Long> ids);
 
-    void update(Curriculum curriculum, LambdaUpdateWrapper<Curriculum> queryWrapper);
+    Result update(BatchUpdateCurriculumsParam batchUpdateCurriculumsParam);
 }

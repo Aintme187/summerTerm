@@ -15,6 +15,7 @@ spec:
       containers:
       - name: manage-service  # 容器的名称
         image: aintme/summer-term-manage-service:latest  # Docker 镜像地址和标签
+        imagePullPolicy: Never # 禁止从远程仓库拉取镜像
         ports:
         - containerPort: 7888  # 容器内暴露的端口
         env:

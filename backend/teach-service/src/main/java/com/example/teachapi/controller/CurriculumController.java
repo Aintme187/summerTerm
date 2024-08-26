@@ -1,12 +1,10 @@
 package com.example.teachapi.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.teachapi.dao.pojo.Curriculum;
 import com.example.teachapi.service.CurriculumService;
 import com.example.teachapi.vo.Result;
 import com.example.teachapi.vo.params.AdminPageParam;
+import com.example.teachapi.vo.params.BatchUpdateCurriculumsParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,17 +26,17 @@ public class CurriculumController {
     }
 
     @GetMapping("/selectPage")
-    public Page<Curriculum> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper) {
-        return curriculumService.selectPage(adminPageParam, queryWrapper);
+    public Result selectPage(@RequestBody AdminPageParam adminPageParam) {
+        return curriculumService.selectPage(adminPageParam);
     }
 
     @PostMapping("/insert")
-    public void insert(@RequestParam Curriculum curriculum) {
+    public void insert(@RequestBody Curriculum curriculum) {
         curriculumService.insert(curriculum);
     }
 
     @PutMapping("/updateById")
-    public void updateById(@RequestParam Curriculum curriculum) {
+    public void updateById(@RequestBody Curriculum curriculum) {
         curriculumService.updateById(curriculum);
     }
 
@@ -58,7 +56,7 @@ public class CurriculumController {
     }
 
     @PutMapping("/update")
-    void update(@RequestParam Curriculum curriculum, LambdaUpdateWrapper<Curriculum> queryWrapper) {
-        curriculumService.update(curriculum, queryWrapper);
+    Result update(@RequestBody BatchUpdateCurriculumsParam batchUpdateCurriculumsParam) {
+        return curriculumService.update(batchUpdateCurriculumsParam);
     }
 }
