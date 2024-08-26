@@ -39,12 +39,8 @@ pipeline {
                     }
                     // 使用 NodeJS 构建前端
                     dir('frontend') {
-                        // 使用 NodeJS 工具
-                        nodejs(nodeJSInstallationName: 'nodeJs') {
-                            sh 'npm install'
-                            // sh 'npm install element-plus@latest'
-                            sh 'npm run build'
-                        }
+                        sh 'npm install'
+                        sh 'npm run build'
                     }
                 }
             }
@@ -95,12 +91,6 @@ pipeline {
                     sh 'kubectl apply -f ./k8s'
                 }
             }
-        }
-    }
-    
-    post {
-        always {
-            sh 'docker system prune -f'
         }
     }
 }
