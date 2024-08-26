@@ -33,18 +33,18 @@ public class SysUserController {
         return sysUserService.selectById(id);
     }
 
-    @GetMapping("/selectPage")
-    public Page<SysUser> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper) {
-        return sysUserService.selectPage(adminPageParam, queryWrapper);
+    @PostMapping("/selectPage")
+    public Result selectPage(@RequestBody AdminPageParam adminPageParam) {
+        return sysUserService.selectPage(adminPageParam);
     }
 
     @PostMapping("/insert")
-    public void insert(@RequestParam SysUser sysUser) {
+    public void insert(@RequestBody SysUser sysUser) {
         sysUserService.insert(sysUser);
     }
 
     @PutMapping("/updateById")
-    public void updateById(@RequestParam SysUser sysUser) {
+    public void updateById(@RequestBody SysUser sysUser) {
         sysUserService.updateById(sysUser);
     }
 
@@ -64,7 +64,7 @@ public class SysUserController {
     }
 
     @PutMapping("/update")
-    void update(@RequestParam SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper) {
+    void update(@RequestBody SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper) {
         sysUserService.update(sysUser, queryWrapper);
     }
 }

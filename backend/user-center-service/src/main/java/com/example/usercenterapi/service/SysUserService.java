@@ -40,7 +40,7 @@ public interface SysUserService {
 
     SysUser selectById(Long id);
 
-    Page<SysUser> selectPage(AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper);
+    Result selectPage(AdminPageParam adminPageParam);
 
     void insert(SysUser sysUser);
 

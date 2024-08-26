@@ -12,12 +12,17 @@ import com.example.usercenterapi.vo.ErrorCode;
 import com.example.usercenterapi.vo.LoginUserVo;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.UserVo;
+import com.example.usercenterapi.vo.AdminSysUserVo;
 import com.example.usercenterapi.vo.params.AdminPageParam;
+import com.example.usercenterapi.vo.params.FilterData;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -158,8 +163,39 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Page<SysUser> selectPage(AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper){
-        return sysUserMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
+    public Result selectPage(AdminPageParam adminPageParam){
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        List<FilterData> filterDataList = adminPageParam.getFilterDataList();
+        if (FilterData.injectFilter(queryWrapper, filterDataList)) {
+            AdminSysUserVo adminSysUserVo = new AdminSysUserVo();
+            try {
+                Page<SysUser> sysUserPage = sysUserMapper.selectPage(new Page<>(adminPageParam.getPage(), adminPageParam.getPageSize()), queryWrapper);
+                adminSysUserVo.setAdminSysUserInfoList(sysUsers2adminSysUserInfos(sysUserPage.getRecords()));
+                adminSysUserVo.setAdminSysUserCount(sysUserPage.getTotal());
+                return Result.success(adminSysUserVo);
+            } catch (Exception e) {
+                return Result.fail(ErrorCode.DATA_ERROR);
+            }
+        } else {
+            return Result.fail(ErrorCode.PARAMS_ERROR);
+        }
+    }
+
+    private List<AdminSysUserVo.AdminSysUserInfo> sysUsers2adminSysUserInfos(List<SysUser> records) {
+        List<AdminSysUserVo.AdminSysUserInfo> SysUserInfoList = new ArrayList<>();
+        for (SysUser record : records) {
+            SysUserInfoList.add(sysUser2adminSysUserInfo(record));
+        }
+        return SysUserInfoList;
+    }
+
+    private AdminSysUserVo.AdminSysUserInfo sysUser2adminSysUserInfo(SysUser sysUser) {
+        AdminSysUserVo.AdminSysUserInfo sysUserInfo = new AdminSysUserVo.AdminSysUserInfo();
+        BeanUtils.copyProperties(sysUser, sysUserInfo);
+        //转换 data 类型数据
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sysUserInfo.setCreateDate(simpleDateFormat.format(sysUser.getCreateDate()));
+        return sysUserInfo;
     }
 
     @Override
