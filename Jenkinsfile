@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
+        // 安装配置为 "maven" 的 Maven 版本，并将其添加到路径中。
         maven "maven"
-        nodejs "nodejs"
     }
     
     environment {
@@ -39,8 +39,12 @@ pipeline {
                     }
                     // 使用 NodeJS 构建前端
                     dir('frontend') {
-                        sh 'npm install'
-                        sh 'npm run build'
+                        // 使用 NodeJS 工具
+                        nodejs(nodeJSInstallationName: 'nodejs') {
+                            sh 'npm install'
+                            // sh 'npm install element-plus@latest'
+                            sh 'npm run build'
+                        }
                     }
                 }
             }
@@ -91,6 +95,12 @@ pipeline {
                     sh 'kubectl apply -f ./k8s'
                 }
             }
+        }
+    }
+    
+    post {
+        always {
+            sh 'docker system prune -f'
         }
     }
 }
