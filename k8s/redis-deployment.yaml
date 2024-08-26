@@ -15,6 +15,7 @@ spec:
       containers:
       - name: redis
         image: redis:latest
+        imagePullPolicy: Never # 禁止从远程仓库拉取镜像
         ports:
         - containerPort: 6379
         resources:
