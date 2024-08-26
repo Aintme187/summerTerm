@@ -8,11 +8,13 @@ import com.example.manageapi.vo.Result;
 import com.example.manageapi.vo.params.AdminPageParam;
 import com.example.manageapi.vo.params.TryAdminPageParam;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @FeignClient(value = "user-center-service")
+@Component
 public interface SysuserClient {
 
     @GetMapping("/sysUser/findByAccount")
@@ -22,13 +24,13 @@ public interface SysuserClient {
     SysUser selectById(@RequestParam("id") Long id);
 
     @PostMapping("/sysUser/selectPage")
-    Page<SysUser> selectPage(@RequestBody TryAdminPageParam tryadminPageParam);
+    Result selectPage(@RequestBody AdminPageParam adminPageParam);
 
     @PostMapping("/sysUser/insert")
     void insert(@RequestBody SysUser sysUser);
 
     @PutMapping("/sysUser/updateById")
-    void updateById(@RequestParam SysUser sysUser);
+    void updateById(@RequestBody SysUser sysUser);
 
     @DeleteMapping("/sysUser/deleteById")
     Result deleteById(@RequestParam Long id);
@@ -40,5 +42,5 @@ public interface SysuserClient {
     Result deleteBatchIds(@RequestParam List<Long> ids);
 
     @PutMapping("/sysUser/update")
-    void update(@RequestParam SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper);
+    void update(@RequestBody SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper);
 }

@@ -41,7 +41,7 @@ public interface SysUserService {
 
     SysUser selectById(Long id);
 
-    Page<SysUser> selectPage(TryAdminPageParam tryAdminPageParam);
+    Result selectPage(AdminPageParam adminPageParam);
 
     void insert(SysUser sysUser);
 

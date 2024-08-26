@@ -35,8 +35,8 @@ public class SysUserController {
     }
 
     @PostMapping("/selectPage")
-    public Page<SysUser> selectPage(@RequestBody TryAdminPageParam tryadminPageParam) {
-        return sysUserService.selectPage(tryadminPageParam);
+    public Result selectPage(@RequestBody AdminPageParam adminPageParam) {
+        return sysUserService.selectPage(adminPageParam);
     }
 
     @PostMapping("/insert")
@@ -65,7 +65,7 @@ public class SysUserController {
     }
 
     @PutMapping("/update")
-    void update(@RequestParam SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper) {
+    void update(@RequestBody SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper) {
         sysUserService.update(sysUser, queryWrapper);
     }
 }

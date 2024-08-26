@@ -49,32 +49,12 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result listSysUserPage(AdminPageParam adminPageParam) {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        List<FilterData> filterDataList = adminPageParam.getFilterDataList();
-
-        tryAdminPageParam.setAdminPageParam(adminPageParam);
-
-        if (FilterData.injectFilter(queryWrapper, filterDataList)) {
-            AdminSysUserVo adminSysUserVo = new AdminSysUserVo();
-            try {
-                tryAdminPageParam.setQueryWrapper(queryWrapper);
-                Page<SysUser> sysUserPage = sysuserClient.selectPage(tryAdminPageParam);
-                adminSysUserVo.setAdminSysUserInfoList(sysUsers2adminSysUserInfos(sysUserPage.getRecords()));
-                adminSysUserVo.setAdminSysUserCount(sysUserPage.getTotal());
-                return Result.success(adminSysUserVo);
-            } catch (Exception e) {
-                return Result.fail(ErrorCode.DATA_ERROR);
-            }
-        } else {
-            return Result.fail(ErrorCode.PARAMS_ERROR);
-        }
+        return sysuserClient.selectPage(adminPageParam);
     }
 
     @Override
     public Result getSysUserInfoById(Long id) {
-        System.out.println("-------Right In!!!----------");
         SysUser sysUser = sysuserClient.selectById(id);
-        System.out.println(sysUser);
         if (sysUser == null) {
             return Result.fail(ErrorCode.NO_USER);
         }
@@ -178,22 +158,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         }
     }
 
-    private List<AdminSysUserVo.AdminSysUserInfo> sysUsers2adminSysUserInfos(List<SysUser> records) {
-        List<AdminSysUserVo.AdminSysUserInfo> SysUserInfoList = new ArrayList<>();
-        for (SysUser record : records) {
-            SysUserInfoList.add(sysUser2adminSysUserInfo(record));
-        }
-        return SysUserInfoList;
-    }
 
-    private AdminSysUserVo.AdminSysUserInfo sysUser2adminSysUserInfo(SysUser sysUser) {
-        AdminSysUserVo.AdminSysUserInfo sysUserInfo = new AdminSysUserVo.AdminSysUserInfo();
-        BeanUtils.copyProperties(sysUser, sysUserInfo);
-        //转换 data 类型数据
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sysUserInfo.setCreateDate(simpleDateFormat.format(sysUser.getCreateDate()));
-        return sysUserInfo;
-    }
 
     /**
      * 检查 sysUserInfoVo 中的错误
