@@ -1,0 +1,21 @@
+# 定义前端服务 (Nginx + 静态文件) 的 Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend  # Deployment 的名称
+  namespace: my-application  # 指定资源所在的命名空间
+spec:
+  selector:
+    matchLabels:
+      app: frontend  # 选择带有此标签的 Pod，确保服务与 Deployment 匹配
+  replicas: 1  # 运行的 Pod 副本数量
+  template:
+    metadata:
+      labels:
+        app: frontend  # Pod 的标签，必须与服务的 selector 匹配
+    spec:
+      containers:
+      - name: frontend  # 容器的名称
+        image: aintme/summer-term-frontend:latest  # 使用的镜像，这里是构建的前端应用镜像
+        ports:
+        - containerPort: 80  # 容器内 Nginx 监听的端口
