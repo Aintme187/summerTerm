@@ -11,7 +11,7 @@ pipeline {
         http_proxy = "http://localhost:7890"
         https_proxy = "http://localhost:7890"
         no_proxy = "localhost,127.0.0.1"
-        KUBECONFIG = '"C:\\Users\\15252\\.kube\\config"'
+        KUBECONFIG = '/etc/rancher/k3s/k3s.yaml'
         DOCKER_REGISTRY = 'aintme'
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-1')
     }
