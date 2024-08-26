@@ -1,6 +1,6 @@
 package com.example.teachapi.service.impl;
 
-import com.example.teachapi.client.sysUserClient;
+import com.example.teachapi.client.SysUserClient;
 import com.example.teachapi.config.TeachingModuleConfig;
 import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.dao.mapper.*;
@@ -48,7 +48,7 @@ public class TeacherTeachingServiceImpl implements TeacherTeachingService {
     @Autowired
     private QiniuUtilsForTeaching qiniuUtilsForTeaching;
     @Autowired
-    private sysUserClient sysUserClient;
+    private SysUserClient sysUserClient;
 
     @Override
     public List<TimetableVo> getCourseTable(Long teacherId) {
