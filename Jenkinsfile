@@ -92,7 +92,7 @@ pipeline {
         stage('k8s'){
             steps{
                 script{
-                    bat 'kubectl apply -f ./k8s'
+                    sh 'kubectl apply -f ./k8s'
                 }
             }
         }
@@ -100,7 +100,7 @@ pipeline {
     
     post {
         always {
-            bat 'docker system prune -f'
+            sh 'docker system prune -f'
         }
     }
 }
