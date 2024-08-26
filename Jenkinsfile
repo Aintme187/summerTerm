@@ -8,6 +8,9 @@ pipeline {
     }
     
     environment {
+        http_proxy = "http://localhost:7890"
+        https_proxy = "http://localhost:7890"
+        no_proxy = "localhost,127.0.0.1"
         KUBECONFIG = '"C:\\Users\\15252\\.kube\\config"'
         DOCKER_REGISTRY = 'aintme'
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-1')
@@ -34,7 +37,6 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // // 后端构建
                     // dir('backend') {
                     //     sh 'mvn clean package'
                     // }
@@ -48,85 +50,85 @@ pipeline {
             }
         }
         
-        stage('Dockerize') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials-1') {
-                        dir('backend') {
-                            dir('blog-service'){
-                                def blogService = docker.build 'aintme/summer-term-blog-service:latest'
-                                blogService.push()
-                            }
-                            dir('gateway'){
-                                def gateway = docker.build 'aintme/summer-term-gateway:latest'
-                                gateway.push()
-                            }
-                            dir('manage-service'){
-                                def manageService = docker.build 'aintme/summer-term-manage-service:latest'
-                                manageService.push()
-                            }
-                            dir('teach-service'){
-                                def teachService = docker.build 'aintme/summer-term-teach-service:latest'
-                                teachService.push()
-                            }
-                            dir('user-center-service'){
-                                def userCenterService = docker.build 'aintme/summer-term-user-center-service:latest'
-                                userCenterService.push()
-                            }
-                        }
-                        dir('frontend') {
-                            def frontend = docker.build 'aintme/summer-term-frontend:latest'
-                            frontend.push()
-                            }
-                        dir('mysql') {
-                            def mysql = docker.build 'aintme/summer-term-mysql:latest'
-                            mysql.push()
-                        }
-                    }
-                }
-            }
-        }
-        
         // stage('Dockerize') {
         //     steps {
         //         script {
-        //             withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-1', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-        //                 // 登录 Docker Hub
-        //                 sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+        //             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials-1') {
         //                 dir('backend') {
         //                     dir('blog-service'){
-        //                         sh 'docker build -t aintme/summer-term-blog-service:latest .'
-        //                         sh 'docker push aintme/summer-term-blog-service:latest'
+        //                         def blogService = docker.build 'aintme/summer-term-blog-service:latest'
+        //                         blogService.push()
         //                     }
         //                     dir('gateway'){
-        //                         sh 'docker build -t aintme/summer-term-gateway:latest .'
-        //                         sh 'docker push aintme/summer-term-gateway:latest'
+        //                         def gateway = docker.build 'aintme/summer-term-gateway:latest'
+        //                         gateway.push()
         //                     }
         //                     dir('manage-service'){
-        //                         sh 'docker build -t aintme/summer-term-manage-service:latest .'
-        //                         sh 'docker push aintme/summer-term-manage-service:latest'
+        //                         def manageService = docker.build 'aintme/summer-term-manage-service:latest'
+        //                         manageService.push()
         //                     }
         //                     dir('teach-service'){
-        //                         sh 'docker build -t aintme/summer-term-teach-service:latest .'
-        //                         sh 'docker push aintme/summer-term-teach-service:latest'
+        //                         def teachService = docker.build 'aintme/summer-term-teach-service:latest'
+        //                         teachService.push()
         //                     }
         //                     dir('user-center-service'){
-        //                         sh 'docker build -t aintme/summer-term-user-center-service:latest .'
-        //                         sh 'docker push aintme/summer-term-user-center-service:latest'
+        //                         def userCenterService = docker.build 'aintme/summer-term-user-center-service:latest'
+        //                         userCenterService.push()
         //                     }
         //                 }
         //                 dir('frontend') {
-        //                     sh 'docker build -t aintme/summer-term-frontend:latest .'
-        //                     sh 'docker push aintme/summer-term-frontend:latest'
-        //                 }
+        //                     def frontend = docker.build 'aintme/summer-term-frontend:latest'
+        //                     frontend.push()
+        //                     }
         //                 dir('mysql') {
-        //                     sh 'docker build -t aintme/summer-term-mysql:latest .'
-        //                     sh 'docker push aintme/summer-term-mysql:latest'
+        //                     def mysql = docker.build 'aintme/summer-term-mysql:latest'
+        //                     mysql.push()
         //                 }
         //             }
         //         }
         //     }
         // }
+        
+        stage('Dockerize') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-1', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // 登录 Docker Hub
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        dir('backend') {
+                            dir('blog-service'){
+                                sh 'docker build -t aintme/summer-term-blog-service:latest .'
+                                sh 'docker push aintme/summer-term-blog-service:latest'
+                            }
+                            dir('gateway'){
+                                sh 'docker build -t aintme/summer-term-gateway:latest .'
+                                sh 'docker push aintme/summer-term-gateway:latest'
+                            }
+                            dir('manage-service'){
+                                sh 'docker build -t aintme/summer-term-manage-service:latest .'
+                                sh 'docker push aintme/summer-term-manage-service:latest'
+                            }
+                            dir('teach-service'){
+                                sh 'docker build -t aintme/summer-term-teach-service:latest .'
+                                sh 'docker push aintme/summer-term-teach-service:latest'
+                            }
+                            dir('user-center-service'){
+                                sh 'docker build -t aintme/summer-term-user-center-service:latest .'
+                                sh 'docker push aintme/summer-term-user-center-service:latest'
+                            }
+                        }
+                        dir('frontend') {
+                            sh 'docker build -t aintme/summer-term-frontend:latest .'
+                            sh 'docker push aintme/summer-term-frontend:latest'
+                        }
+                        dir('mysql') {
+                            sh 'docker build -t aintme/summer-term-mysql:latest .'
+                            sh 'docker push aintme/summer-term-mysql:latest'
+                        }
+                    }
+                }
+            }
+        }
 
         stage('k8s'){
             steps{
