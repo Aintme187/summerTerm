@@ -19,7 +19,7 @@ public interface SubmissionMapper extends BaseMapper<Submission> {
     Submission getSubmissionByAssignmentAndStudent(@Param("assignmentId") Long assignmentId, @Param("studentId") Long studentId);
 
     @Select("SELECT su.id, su.submission_Url, su.time, su.status, su.assignment_id AS assignmentId, su.student_id AS studentId, su.file_name AS fileName, su.student_name AS studentName " +
-            "FROM Submission su " +
+            "FROM submission su " +
             "WHERE su.assignment_id = #{assignmentId} AND su.status = false")
     List<SubmissionVo> selectByAssignmentId(Long assignmentId);
 }
