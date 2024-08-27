@@ -1,0 +1,14 @@
+# 定义前端服务 (Nginx) 的 Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend  # 服务的名称
+spec:
+  selector:
+    app: frontend  # 选择带有此标签的 Pod
+  ports:
+    - protocol: TCP  # 使用的协议类型，这里是 TCP
+      port: 80  # 服务暴露的端口，供内部访问
+      targetPort: 80  # 容器内部 Nginx 监听的端口
+      nodePort: 30080  # 指定的NodePort，供外部访问
+  type: NodePort  # NodePort 服务类型，允许外部用户通过指定端口访问

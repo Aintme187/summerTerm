@@ -32,50 +32,9 @@ public class AdminCourseServiceImpl implements AdminCourseService {
     @Autowired
     private BlogClient blogClient;
 
-    // 工厂方法（使用同一个 queryWrapper 会相互干扰）构建跨表查询，注意主表被重命名为 t
-    private MPJQueryWrapper<Course> queryWrapperFactory() {
-        return new MPJQueryWrapper<Course>()
-                .selectAll(Course.class)
-                .select("curriculum.name as curriculumName", "curriculum.credit as credit", "curriculum.introduction as introduction")
-                .select("sys_user.nickname as teacherName")
-                .leftJoin("curriculum on t.curriculum_id = curriculum.id")
-                .leftJoin("sys_user on t.teacher_id = sys_user.id");
-    }
-
-    public static List<FilterData> mapFunction(List<FilterData> filterDataList) {
-        for (FilterData filterData : filterDataList) {
-            switch (filterData.getName()) {
-                case "curriculumName":
-                    filterData.setName("curriculum.name");
-                    break;
-                case "credit":
-                case "introduction":
-                    filterData.setName("curriculum." + filterData.getName());
-                    break;
-                case "teacherName":
-                    filterData.setName("sys_user.nickname");
-                    break;
-                default:
-                    filterData.setName("t." + filterData.getName());
-                    break;
-            }
-        }
-        return filterDataList;
-    }
-
     @Override
     public Result listCoursePage(AdminPageParam adminPageParam) {
-        MPJQueryWrapper<Course> queryWrapper = queryWrapperFactory();
-        List<FilterData> filterDataList = adminPageParam.getFilterDataList();
-        if (FilterData.injectFilter(queryWrapper, filterDataList, AdminCourseServiceImpl::mapFunction)) {
-            AdminCourseVo adminCourseVo = new AdminCourseVo();
-            Page<AdminCourseInfoVo> page = teachClient.selectJoinPage(adminPageParam, queryWrapper);
-            adminCourseVo.setCourseVoList(page.getRecords());
-            adminCourseVo.setCourseVoCount(page.getTotal());
-            return Result.success(adminCourseVo);
-        } else {
-            return Result.fail(ErrorCode.PARAMS_ERROR);
-        }
+        return teachClient.selectJoinPage(adminPageParam);
     }
 
     @Override
@@ -144,31 +103,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
 
     @Override
     public Result batchUpdateCourses(BatchUpdateCoursesParam batchUpdateCoursesParam) {
-        List<Long> ids = batchUpdateCoursesParam.getIds();
-        Course course = batchUpdateCoursesParam.getCourse();
-        Long maxEnrollment = teachClient.selectCertainOne("MAX(enrollment) as enrollment", ids).getEnrollment();
-        Long maxWeekBegin = teachClient.selectCertainOne("MAX(week_begin) as weekBegin", ids).getWeekBegin();
-        Long minWeekEnd = teachClient.selectCertainOne("MIN(week_end) as weekEnd", ids).getWeekEnd();
-        maxWeekBegin = course.getWeekBegin() == null ? maxWeekBegin : course.getWeekBegin();
-        minWeekEnd = course.getWeekEnd() == null ? minWeekEnd : course.getWeekEnd();
-        Long maxSectionBegin = teachClient.selectCertainOne("MAX(section_begin) as sectionBegin", ids).getSectionBegin();
-        Long minSectionEnd = teachClient.selectCertainOne("MIN(section_end) as sectionEnd", ids).getSectionEnd();
-        maxSectionBegin = course.getSectionBegin() == null ? maxSectionBegin : course.getSectionBegin();
-        minSectionEnd = course.getSectionEnd() == null ? minSectionEnd : course.getSectionEnd();
-        ErrorCode errorCode = errorInCourse(course, maxEnrollment);
-        if (errorCode != null) {
-            if (errorCode == ErrorCode.CAPACITY_LT_ENROLLMENT)
-                return Result.fail(errorCode.getCode(), errorCode.getMsg() + maxEnrollment);
-            return Result.fail(errorCode);
-        }
-        if ((course.getWeekBegin() != null || course.getWeekEnd() != null) && maxWeekBegin > minWeekEnd)
-            return Result.fail(ErrorCode.ILLEGAL_WEEK);
-        if ((course.getSectionBegin() != null || course.getSectionEnd() != null) && maxSectionBegin > minSectionEnd)
-            return Result.fail(ErrorCode.ILLEGAL_SECTION);
-        course.setId(null);
-        course.setEnrollment(null);
-        teachClient.update(course, new LambdaUpdateWrapper<Course>().in(Course::getId, ids));
-        return Result.success(null);
+        return teachClient.update(batchUpdateCoursesParam);
     }
 
     private Course noNull(Course course) {

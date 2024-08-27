@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.manageapi.dao.dto.SysUser;
 import com.example.manageapi.vo.Result;
 import com.example.manageapi.vo.params.AdminPageParam;
+import com.example.manageapi.vo.params.BatchUpdateSysUsersParam;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @FeignClient(value = "user-center-service")
+@Component
 public interface SysuserClient {
 
     @GetMapping("/sysUser/findByAccount")
@@ -20,14 +23,14 @@ public interface SysuserClient {
     @GetMapping("/sysUser/selectById")
     SysUser selectById(@RequestParam("id") Long id);
 
-    @GetMapping("/sysUser/selectPage")
-    Page<SysUser> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<SysUser> queryWrapper);
+    @PostMapping("/sysUser/selectPage")
+    Result selectPage(@RequestBody AdminPageParam adminPageParam);
 
     @PostMapping("/sysUser/insert")
-    void insert(@RequestParam SysUser sysUser);
+    void insert(@RequestBody SysUser sysUser);
 
     @PutMapping("/sysUser/updateById")
-    void updateById(@RequestParam SysUser sysUser);
+    void updateById(@RequestBody SysUser sysUser);
 
     @DeleteMapping("/sysUser/deleteById")
     Result deleteById(@RequestParam Long id);
@@ -39,5 +42,5 @@ public interface SysuserClient {
     Result deleteBatchIds(@RequestParam List<Long> ids);
 
     @PutMapping("/sysUser/update")
-    void update(@RequestParam SysUser sysUser, LambdaUpdateWrapper<SysUser> queryWrapper);
+    Result update(@RequestBody BatchUpdateSysUsersParam batchUpdateSysUsersParam);
 }

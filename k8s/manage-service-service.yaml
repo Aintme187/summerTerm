@@ -1,0 +1,10 @@
+apiVersion: v1  # Kubernetes API 版本
+kind: Service  # 资源类型，表示这是一个 Service 对象
+metadata:
+  name: manage-service  # Service 的名字
+spec:
+  ports:
+  - port: 7888  # Service 公开的端口
+    targetPort: 7888  # 转发到容器的端口
+  selector:
+    app: manage-service  # Service 选择的 Pod 的标签

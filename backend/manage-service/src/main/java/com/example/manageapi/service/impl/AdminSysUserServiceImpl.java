@@ -14,6 +14,7 @@ import com.example.manageapi.vo.SysUserInfoVo;
 import com.example.manageapi.vo.params.AdminPageParam;
 import com.example.manageapi.vo.params.BatchUpdateSysUsersParam;
 import com.example.manageapi.vo.params.FilterData;
+import com.example.manageapi.vo.params.TryAdminPageParam;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
     private SysUserService sysUserService;
     @Autowired
     private SysuserClient sysuserClient;
+    @Autowired
+    private TryAdminPageParam tryAdminPageParam;
 
     private final String salt = "salt";
 
@@ -46,28 +49,12 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result listSysUserPage(AdminPageParam adminPageParam) {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        List<FilterData> filterDataList = adminPageParam.getFilterDataList();
-        if (FilterData.injectFilter(queryWrapper, filterDataList)) {
-            AdminSysUserVo adminSysUserVo = new AdminSysUserVo();
-            try {
-                Page<SysUser> sysUserPage = sysuserClient.selectPage(adminPageParam, queryWrapper);
-                adminSysUserVo.setAdminSysUserInfoList(sysUsers2adminSysUserInfos(sysUserPage.getRecords()));
-                adminSysUserVo.setAdminSysUserCount(sysUserPage.getTotal());
-                return Result.success(adminSysUserVo);
-            } catch (Exception e) {
-                return Result.fail(ErrorCode.DATA_ERROR);
-            }
-        } else {
-            return Result.fail(ErrorCode.PARAMS_ERROR);
-        }
+        return sysuserClient.selectPage(adminPageParam);
     }
 
     @Override
     public Result getSysUserInfoById(Long id) {
-        System.out.println("-------Right In!!!----------");
         SysUser sysUser = sysuserClient.selectById(id);
-        System.out.println(sysUser);
         if (sysUser == null) {
             return Result.fail(ErrorCode.NO_USER);
         }
@@ -146,46 +133,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
 
     @Override
     public Result batchUpdateSysUsers(BatchUpdateSysUsersParam batchUpdateSysUsersParam) {
-        List<Long> ids = batchUpdateSysUsersParam.getIds();
-        SysUserInfoVo sysUserInfoVo = batchUpdateSysUsersParam.getSysUserInfoVo();
-        /*
-        因为可能更新为空字符串 ""
-        所以指定 null 为不更新
-         */
-        if (sysUserInfoVo.getPassword() != null) {
-//            sysUserInfoVo.setPassword(DigestUtils.md5Hex(sysUserInfoVo.getPassword()));
-        }
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserInfoVo, sysUser);
-        ErrorCode errorCode = errorInSysUser(sysUser);
-        if (errorCode != null) return Result.fail(errorCode);
-        LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.in(SysUser::getId, ids);
-        try {
-            sysUser.setPassword(DigestUtils.md5Hex(sysUser.getPassword() + salt));
-            sysUser.setPermission(null);
-            sysuserClient.update(sysUser, updateWrapper);
-            return Result.success(null);
-        } catch (Exception e) {
-            return Result.fail(ErrorCode.DATA_ERROR);
-        }
-    }
-
-    private List<AdminSysUserVo.AdminSysUserInfo> sysUsers2adminSysUserInfos(List<SysUser> records) {
-        List<AdminSysUserVo.AdminSysUserInfo> SysUserInfoList = new ArrayList<>();
-        for (SysUser record : records) {
-            SysUserInfoList.add(sysUser2adminSysUserInfo(record));
-        }
-        return SysUserInfoList;
-    }
-
-    private AdminSysUserVo.AdminSysUserInfo sysUser2adminSysUserInfo(SysUser sysUser) {
-        AdminSysUserVo.AdminSysUserInfo sysUserInfo = new AdminSysUserVo.AdminSysUserInfo();
-        BeanUtils.copyProperties(sysUser, sysUserInfo);
-        //转换 data 类型数据
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sysUserInfo.setCreateDate(simpleDateFormat.format(sysUser.getCreateDate()));
-        return sysUserInfo;
+        return sysuserClient.update(batchUpdateSysUsersParam);
     }
 
     /**

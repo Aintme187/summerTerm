@@ -7,6 +7,7 @@ import com.example.teachapi.dao.dto.SysUser;
 import com.example.teachapi.dao.pojo.Course;
 import com.example.teachapi.vo.Result;
 import com.example.teachapi.vo.params.AdminPageParam;
+import com.example.teachapi.vo.params.BatchUpdateCoursesParam;
 import com.github.yulichang.query.MPJQueryWrapper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -16,9 +17,7 @@ import java.util.List;
 public interface CourseService {
     Course selectById(Long id);
 
-    Page<AdminCourseInfoVo> selectJoinPage(AdminPageParam adminPageParam, MPJQueryWrapper<Course> queryWrapper);
-
-    Course selectCertainOne(String certain, List<Long> ids);
+    Result selectJoinPage(AdminPageParam adminPageParam);
 
     void insert(Course course);
 
@@ -30,5 +29,5 @@ public interface CourseService {
 
     Result deleteBatchIds(List<Long> ids);
 
-    void update(Course course, LambdaUpdateWrapper<Course> queryWrapper);
+    Result update(BatchUpdateCoursesParam batchUpdateCoursesParam);
 }

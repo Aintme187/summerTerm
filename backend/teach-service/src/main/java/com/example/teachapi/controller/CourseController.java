@@ -7,6 +7,7 @@ import com.example.teachapi.dao.pojo.Course;
 import com.example.teachapi.service.CourseService;
 import com.example.teachapi.vo.Result;
 import com.example.teachapi.vo.params.AdminPageParam;
+import com.example.teachapi.vo.params.BatchUpdateCoursesParam;
 import com.github.yulichang.query.MPJQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,23 +30,18 @@ public class CourseController {
         return courseService.selectById(id);
     }
 
-    @GetMapping("/selectJoinPage")
-    Page<AdminCourseInfoVo> selectJoinPage(@RequestParam AdminPageParam adminPageParam, MPJQueryWrapper<Course> queryWrapper) {
-        return courseService.selectJoinPage(adminPageParam, queryWrapper);
-    }
-
-    @GetMapping("/selectCertainOne")
-    Course selectCertainOne(@RequestParam String certain, List<Long> ids) {
-        return courseService.selectCertainOne(certain, ids);
+    @PostMapping("/selectJoinPage")
+    Result selectJoinPage(@RequestBody AdminPageParam adminPageParam) {
+        return courseService.selectJoinPage(adminPageParam);
     }
 
     @PostMapping("/insert")
-    public void insert(@RequestParam Course course) {
+    public void insert(@RequestBody Course course) {
         courseService.insert(course);
     }
 
     @PutMapping("/updateById")
-    public void updateById(@RequestParam Course course) {
+    public void updateById(@RequestBody Course course) {
         courseService.updateById(course);
     }
 
@@ -65,7 +61,7 @@ public class CourseController {
     }
 
     @PutMapping("/update")
-    void update(@RequestParam Course course, LambdaUpdateWrapper<Course> queryWrapper) {
-        courseService.update(course, queryWrapper);
+    Result update(@RequestBody BatchUpdateCoursesParam batchUpdateCoursesParam) {
+        return courseService.update(batchUpdateCoursesParam);
     }
 }

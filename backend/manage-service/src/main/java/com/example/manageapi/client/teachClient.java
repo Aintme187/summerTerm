@@ -1,14 +1,11 @@
 package com.example.manageapi.client;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.manageapi.dao.dto.Course;
 import com.example.manageapi.dao.dto.Curriculum;
-import com.example.manageapi.vo.AdminCourseInfoVo;
 import com.example.manageapi.vo.Result;
 import com.example.manageapi.vo.params.AdminPageParam;
-import com.github.yulichang.query.MPJQueryWrapper;
+import com.example.manageapi.vo.params.BatchUpdateCoursesParam;
+import com.example.manageapi.vo.params.BatchUpdateCurriculumsParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +16,14 @@ public interface teachClient {
     @GetMapping("/course/selectById")
     Course selectById(@RequestParam("id") Long id);
 
-    @GetMapping("/course/selectJoinPage")
-    Page<AdminCourseInfoVo> selectJoinPage(@RequestParam AdminPageParam adminPageParam, MPJQueryWrapper<Course> queryWrapper);
-
-    @GetMapping("/course/selectCertainOne")
-    Course selectCertainOne(@RequestParam String certain, List<Long> ids);
+    @PostMapping("/course/selectJoinPage")
+    Result selectJoinPage(@RequestBody AdminPageParam adminPageParam);
 
     @PostMapping("/course/insert")
-    void insert(@RequestParam Course course);
+    void insert(@RequestBody Course course);
 
     @PutMapping("/course/updateById")
-    void updateById(@RequestParam Course course);
+    void updateById(@RequestBody Course course);
 
     @DeleteMapping("/course/deleteById")
     Result deleteById(@RequestParam Long id);
@@ -41,19 +35,19 @@ public interface teachClient {
     Result deleteBatchIds(@RequestParam List<Long> ids);
 
     @PutMapping("/course/update")
-    void update(@RequestParam Course course, LambdaUpdateWrapper<Course> queryWrapper);
+    Result update(@RequestBody BatchUpdateCoursesParam batchUpdateCoursesParam);
 
     @GetMapping("/curriculum/selectById")
     Curriculum selectCurriculumById(@RequestParam("id") Long id);
 
-    @GetMapping("/curriculum/selectPage")
-    Page<Curriculum> selectPage(@RequestParam AdminPageParam adminPageParam, QueryWrapper<Curriculum> queryWrapper);
+    @PostMapping("/curriculum/selectPage")
+    Result selectPage(@RequestBody AdminPageParam adminPageParam);
 
     @PostMapping("/curriculum/insert")
-    void insert(@RequestParam Curriculum curriculum);
+    void insert(@RequestBody Curriculum curriculum);
 
     @PutMapping("/curriculum/updateById")
-    void updateById(@RequestParam Curriculum curriculum);
+    void updateById(@RequestBody Curriculum curriculum);
 
     @DeleteMapping("/curriculum/deleteById")
     Result deleteCurriculumById(@RequestParam Long id);
@@ -65,5 +59,5 @@ public interface teachClient {
     Result deleteCurriculumBatchIds(@RequestParam List<Long> ids);
 
     @PutMapping("/curriculum/update")
-    void update(@RequestParam Curriculum curriculum, LambdaUpdateWrapper<Curriculum> queryWrapper);
+    Result update(@RequestBody BatchUpdateCurriculumsParam batchUpdateCurriculumsParam);
 }
