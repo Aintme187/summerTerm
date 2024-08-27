@@ -6,5 +6,7 @@ spec:
   ports:
   - port: 8888  # Service 公开的端口
     targetPort: 8888  # 转发到容器的端口
+    nodePort: 30088  # NodePort 类型服务的外部端口（指定范围为 30000-32767）
+  type: NodePort  # 服务类型为 NodePort，表示服务可以通过宿主机的 IP 和指定端口访问
   selector:
     app: gateway-service  # Service 选择的 Pod 的标签
