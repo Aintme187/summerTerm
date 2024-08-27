@@ -124,7 +124,9 @@ pipeline {
         stage('k8s'){
             steps{
                 script{
-                    sh 'kubectl delete -f ./k8s/changable'
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                        sh 'kubectl delete -f ./k8s/changable'
+                    }
                     sh 'kubectl apply -f ./k8s/changable'
                     sh 'kubectl apply -f ./k8s/relentless'
                 }
