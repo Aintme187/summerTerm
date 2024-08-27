@@ -6,6 +6,7 @@ spring:
     sentinel:
       transport:
         dashboard: localhost:8090
+      block-page: /blocked
 
 feign:
   sentinel:

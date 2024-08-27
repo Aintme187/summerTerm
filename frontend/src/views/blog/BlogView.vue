@@ -109,7 +109,7 @@
           </el-dialog>
           <div class="me-view-comment">
             <div style="display: flex">
-              <img class="me-blog-view-picture" :src="avatar"/>
+              <img class="me-blog-view-picture" :src="article.authorInfo.avatar"/>
               <el-input
                   type="textarea"
                   :autosize="{ minRows: 2}"
