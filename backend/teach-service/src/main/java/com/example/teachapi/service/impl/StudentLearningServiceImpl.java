@@ -211,6 +211,7 @@ public class StudentLearningServiceImpl implements StudentLearningService {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
         boolean upload = qiniuUtilsForTeaching.upload(multipartFile, fileName);
+
         if (upload) {
             // 插入记录
             Submission submission = new Submission();
@@ -223,7 +224,13 @@ public class StudentLearningServiceImpl implements StudentLearningService {
             submission.setStudentName(
                     objectMapper.convertValue(sysUserClient.queryInfo(studentId).getData(), SysUser.class).getNickname()
             );
-            submissionMapper.insert(submission);
+            if(submissionMapper.getSubmissionByAssignmentAndStudent(assignmentId,studentId)!=null){
+                submissionMapper.updateById(submission);
+            }
+            else{
+                submissionMapper.insert(submission);
+            }
+
             return Result.success(fileName);
         }
         return Result.fail(500, "上传失败");
