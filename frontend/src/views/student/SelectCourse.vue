@@ -56,7 +56,7 @@ function getCourses() {
   }).catch((reason) => {
     ElMessage({
       type: "error",
-      message: reason,
+      message: "服务器压力太大了！！！！！！",
     })
   })
 }
