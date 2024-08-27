@@ -29,7 +29,7 @@ spring:
             - Path=/articles/**,/categorys/**,/comments/**,/favorites/**,/messages/**,/tags/**,/upload/**
       globalcors: # 全局跨域配置
         add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
-        cors‐configurations:
+        cors-configurations:
           '[/**]': # 匹配请求
             allowedOrigins: "http://localhost:5173"
             allowCredentials: true # 是否允许携带cookie
