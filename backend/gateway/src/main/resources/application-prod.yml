@@ -35,7 +35,6 @@ spring:
             allowCredentials: true # 是否允许携带cookie
             allowedMethods: "*"# 支持的方法
             allowedHeaders: "*" # 允许在请求中携带的头信息
-
 logging:
   level:
-    root: debug
+    com.example.LoggingFilter: INFO
