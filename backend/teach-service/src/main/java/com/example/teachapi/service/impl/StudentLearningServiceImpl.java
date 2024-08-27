@@ -224,7 +224,12 @@ public class StudentLearningServiceImpl implements StudentLearningService {
             submission.setStudentName(
                     objectMapper.convertValue(sysUserClient.queryInfo(studentId).getData(), SysUser.class).getNickname()
             );
-            if(submissionMapper.getSubmissionByAssignmentAndStudent(assignmentId,studentId)!=null){
+
+            Submission submission1 = submissionMapper.getSubmissionByAssignmentAndStudent(assignmentId, studentId);
+
+
+            if(submission1!=null){
+                submission.setId(submission1.getId());
                 submissionMapper.updateById(submission);
             }
             else{
