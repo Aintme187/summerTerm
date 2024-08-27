@@ -257,7 +257,7 @@ public class SysUserServiceImpl implements SysUserService {
         所以指定 null 为不更新
          */
         if (sysUserInfoVo.getPassword() != null) {
-//            sysUserInfoVo.setPassword(DigestUtils.md5Hex(sysUserInfoVo.getPassword()));
+            sysUserInfoVo.setPassword(DigestUtils.md5Hex(sysUserInfoVo.getPassword()));
         }
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserInfoVo, sysUser);

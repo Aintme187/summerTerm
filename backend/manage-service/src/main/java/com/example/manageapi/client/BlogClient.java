@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(value = "blog-service")
 public interface BlogClient {
-    @PostMapping("/categorys/creat")
+    @PostMapping("/categorys/create")
     Result insert(@RequestBody Category category);
 }

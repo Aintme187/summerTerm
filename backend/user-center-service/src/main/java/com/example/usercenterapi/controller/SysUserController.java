@@ -66,7 +66,7 @@ public class SysUserController {
     }
 
     @PutMapping("/update")
-    Result update(BatchUpdateSysUsersParam batchUpdateSysUsersParam) {
+    Result update(@RequestBody BatchUpdateSysUsersParam batchUpdateSysUsersParam) {
         return sysUserService.update(batchUpdateSysUsersParam);
     }
 }
