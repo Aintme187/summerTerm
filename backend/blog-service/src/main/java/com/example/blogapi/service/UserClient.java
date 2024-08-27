@@ -1,6 +1,8 @@
 package com.example.blogapi.service;
 
+import com.example.blogapi.config.DefaultFeignConfig;
 import com.example.blogapi.dao.pojo.SysUser;
+import com.example.blogapi.fallback.UserClientFallbackFactory;
 import com.example.blogapi.vo.Result;
 import com.example.blogapi.vo.UserVo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -8,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("user-center-service")
+@FeignClient(value = "user-center-service",
+        fallbackFactory = UserClientFallbackFactory.class,
+        configuration = DefaultFeignConfig.class)
 public interface UserClient {
 
     @GetMapping("/users/getMyInfo")

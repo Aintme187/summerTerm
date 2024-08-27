@@ -141,7 +141,14 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public Result getInfoById(Long id) {
-        return Result.success(sysUserMapper.selectById(id));
+        SysUser sysUser = sysUserMapper.selectById(id);
+        if (sysUser == null) {
+            sysUser = new SysUser();
+            sysUser.setId(1L);
+            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
+            sysUser.setNickname("默认作者");
+        }
+        return Result.success(sysUser);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.blogapi.vo;
 
 public enum ErrorCode {
-
+    IS_SENTINEL(10107,"被限流了！！！！！！！！！！！！！"),
     PARAMS_ERROR(10001, "参数有误"),
     ACCOUNT_PWD_NOT_EXIST(10002, "用户名或密码不存在"),
     TOKEN_ERROR(10003, "token不合法"),
@@ -37,7 +37,11 @@ public enum ErrorCode {
     ILLEGAL_CURRICULUM_NAME(50001, "不合法的课程名，课程名不能超过30个字"),
     ILLEGAL_CREDIT(50002, "不合法的学分，学分是大于0的小数"),
     ILLEGAL_INTRODUCTION(50003, "不合法的课程简介，课程简介不能超过200字"),
-    IS_LIKE(10006, "已经被点赞");
+    IS_LIKE(10106, "已经被点赞");
+
+
+
+
     private int code;
     private String msg;
 

@@ -68,8 +68,25 @@ public class CommentsServiceImpl implements CommentsService {
         commentVo.setChildrens(commentVoList);
         if (comment.getLevel() > 1) {
             Long toUid = comment.getToUid();
-            UserVo toUserVo = sysUserService.findUserVoById(toUid);
-            commentVo.setToUser(toUserVo);
+
+            Result res = userClient.getMyInfo(toUid);
+            Object data1 = res.getData();
+            ObjectMapper objectMapper1 = new ObjectMapper();
+            SysUser sysUser1 = objectMapper1.convertValue(data1, SysUser.class);
+
+            if (sysUser1 == null) {
+                sysUser1 = new SysUser();
+                sysUser1.setId(1L);
+                sysUser1.setAvatar("/static/img/logo.b3a48c0.png");
+                sysUser1.setNickname("默认作者");
+            }
+
+            UserVo userVo1 = new UserVo();
+            userVo1.setAvatar(sysUser1.getAvatar());
+            userVo1.setNickname(sysUser1.getNickname());
+            userVo1.setId(sysUser1.getId());
+
+            commentVo.setToUser(userVo1);
         }
         return commentVo;
     }
