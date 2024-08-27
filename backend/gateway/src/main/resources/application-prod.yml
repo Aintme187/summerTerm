@@ -5,7 +5,7 @@ spring:
     name: gateway
   cloud:
     nacos:
-      server-addr: http://nacos-headless:8848
+      server-addr: http://47.94.206.220:8848
     gateway:
       discovery:
         locator:
@@ -36,5 +36,6 @@ spring:
             allowedMethods: "*"# 支持的方法
             allowedHeaders: "*" # 允许在请求中携带的头信息
 
-
-
+logging:
+  level:
+    root: debug

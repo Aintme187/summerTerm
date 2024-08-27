@@ -23,7 +23,7 @@ spring:
         - id: user-center-service
           uri: lb://user-center-service
           predicates:
-            - Path=/users/**,/login/**,/logout/**
+            - Path=/users/**,/login/**,/logout/**,/register/**
         - id: blog-service
           uri: lb://blog-service
           predicates:
