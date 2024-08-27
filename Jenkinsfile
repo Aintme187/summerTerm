@@ -111,7 +111,7 @@ pipeline {
                     }
                     dir('frontend') {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                            sh 'docker image rm aintme/summer-term-frontend:latest'
+                            sh 'docker image rm -f aintme/summer-term-frontend:latest'
                         }
                         sh 'docker build -t aintme/summer-term-frontend:latest .'
                         // sh 'docker push aintme/summer-term-frontend:latest'
