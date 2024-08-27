@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import PageContainer from '@/components/PageContainer.vue'
 import { getAssignmentsService, submitAssignmentService, downloadAssignmentService } from '@/api/student';
 import { useStore } from 'vuex';
+import {ElMessage} from "element-plus";
 
 const store = useStore();
 const userId = store.state.id;
@@ -18,8 +19,13 @@ const getAssignments = async () => {
 }
 
 const submitAssignment = async (assignmentId, file) => {
-    await submitAssignmentService(userId, assignmentId, file.raw);
-    await getAssignments();
+    try{
+      await submitAssignmentService(userId, assignmentId, file.raw);
+      await getAssignments();
+    }catch (error){
+      ElMessage({type: 'error', message: '上传作业太频繁了，请稍候再上传吧!', showClose: true})
+    }
+
 }
 
 const downloadAssignment = async (assignmentId) => {

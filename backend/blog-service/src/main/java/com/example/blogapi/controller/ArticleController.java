@@ -36,7 +36,7 @@ public class ArticleController {
     //Result是统一结果返回
     @PostMapping
     @LogAnnotation(module="文章", operator="获取文章列表")
-    @Cache(expire = 5 * 60 * 1000,name = "articles")
+    @Cache(name = "articles")
     public Result articles(@RequestBody PageParams pageParams) {
         //ArticleVo 页面接收的数据
         List<ArticleVo> articles = articleService.listArticlesPage(pageParams);
@@ -62,14 +62,14 @@ public class ArticleController {
     }
 
     @PostMapping("hot")
-    @Cache(expire = 5 * 60 * 1000,name = "articlesHot")
+    @Cache(name = "articlesHot")
     public Result articlesHot(){
         int limit = 10;
         return articleService.articleHot(limit);
     }
 
     @PostMapping("new")
-    @Cache(expire = 5 * 60 * 1000,name = "articleNew")
+    @Cache(name = "articleNew")
     public Result articleNew(){
         int limit = 5;
         return articleService.articleNew(limit);
