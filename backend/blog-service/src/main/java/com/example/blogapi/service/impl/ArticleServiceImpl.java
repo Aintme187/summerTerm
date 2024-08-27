@@ -12,6 +12,7 @@ import com.example.blogapi.utils.UserThreadLocal;
 import com.example.blogapi.vo.*;
 import com.example.blogapi.vo.params.ArticleParam;
 import com.example.blogapi.vo.params.PageParams;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMaterialMapper articleMaterialMapper;
     @Autowired
     private UserArticleLikeMapper userArticleLikeMapper;
+    @Autowired
+    private UserClient userClient;
     @Override
     public List<ArticleVo> listArticlesPage(PageParams pageParams) {
 
@@ -123,7 +126,7 @@ public class ArticleServiceImpl implements ArticleService {
         queryWrapper.select(Article::getId, Article::getTitle);
         queryWrapper.last("limit " + limit);
         List<Article> articles = articleMapper.selectList(queryWrapper);
-        return Result.success(copyList(articles, true, true, false, false));
+        return Result.success(copyList(articles, true, false, false, false));
     }
 
     @Override
@@ -133,7 +136,7 @@ public class ArticleServiceImpl implements ArticleService {
         queryWrapper.select(Article::getId, Article::getTitle);
         queryWrapper.last("limit " + limit);
         List<Article> articles = articleMapper.selectList(queryWrapper);
-        return Result.success(copyList(articles, true, true, false, false));
+        return Result.success(copyList(articles, true, false, false, false));
     }
 
     /**
@@ -324,9 +327,17 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if(withAuthor){
             System.out.println("============================below are articleAuthor info");
-            System.out.println("articleAuthor" + sysUserService.findUserById(article.getAuthorId()).getNickname());
-            articleVo.setAuthor(sysUserService.findUserById(article.getAuthorId()).getNickname());
-            SysUser sysUser = sysUserService.findUserById(article.getAuthorId());
+
+
+            Result result = userClient.getMyInfo(article.getAuthorId());
+            Object data = result.getData();
+            ObjectMapper objectMapper = new ObjectMapper();
+            SysUser sysUser = objectMapper.convertValue(data, SysUser.class);
+
+            System.out.println("articleAuthor" + article.getAuthorId());
+
+            articleVo.setAuthor(sysUser.getNickname());
+
             SysUserVo sysUserVo = new SysUserVo();
             BeanUtils.copyProperties(sysUser, sysUserVo);
             sysUserVo.setCreateDate(simpleDateFormat.format(new Date(System.currentTimeMillis())));

@@ -1,9 +1,14 @@
 spring:
   cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
     sentinel:
       transport:
         dashboard: localhost:8090
 
 feign:
+  sentinel:
+    enabled: true
   okhttp:
     enabled: true # 开启OKHttp连接池支持
