@@ -37,7 +37,7 @@ pipeline {
                         sh 'mvn clean package'
                     }
                     dir('frontend') {
-                        sh 'npm install'
+                        // sh 'npm install'
                         sh 'npm run build'
                     }
                     sh 'echo "Building the application..."'
@@ -110,9 +110,6 @@ pipeline {
                         }
                     }
                     dir('frontend') {
-                        catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                            sh 'docker image rm -f aintme/summer-term-frontend:latest'
-                        }
                         sh 'docker build -t aintme/summer-term-frontend:latest .'
                         // sh 'docker push aintme/summer-term-frontend:latest'
                     }
