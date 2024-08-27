@@ -37,4 +37,4 @@ spring:
             allowedHeaders: "*" # 允许在请求中携带的头信息
 logging:
   level:
-    com.example.LoggingFilter: INFO
+    com.example.filter.LoggingFilter: INFO
