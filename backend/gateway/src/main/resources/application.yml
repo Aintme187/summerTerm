@@ -34,7 +34,7 @@ spring:
           '[/**]': # 匹配请求
             allowedOrigins: "http://localhost:5173"
             allowCredentials: true # 是否允许携带cookie
-            allowedMethods: "*"# 支持的方法
+            allowedMethods: "*" # 支持的方法
             allowedHeaders: "*" # 允许在请求中携带的头信息
 
 
