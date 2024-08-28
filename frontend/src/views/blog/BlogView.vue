@@ -370,7 +370,7 @@ const getCommentsByArticle = () => {
     comments.value = data.data;
   }).catch(error => {
     if (error !== 'error') {
-      message({type: 'error', message: '评论加载失败', showClose: true});
+      message({type: 'error', message: '点击文章太快了，请稍后再试', showClose: true});
     }
   })
 };

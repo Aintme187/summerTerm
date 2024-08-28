@@ -1,12 +1,24 @@
 spring:
+  application:
+    name: blog-service
   cloud:
     loadbalancer:
       nacos:
         enabled: true
     sentinel:
+      # Sentinel 规则持久化
+      # 名称随意
       transport:
         dashboard: localhost:8090
+      datasource: # sentinel用nacos作为数据源的配置
+        flux-control: # 流控管理（这个名称可以自定义）
+          nacos: # 告诉sentinel用nacos作为数据源
+            data-id: feign-test_flux-control_config.json # 配置中心里执行文件的dataId
+            server-addr: localhost:8848 # nacos的地址
+            rule-type: flow # 指定文件配置的是那种规则
+            group-id: DEFAULT_GROUP
       block-page: /blocked
+
 
 feign:
   sentinel:
