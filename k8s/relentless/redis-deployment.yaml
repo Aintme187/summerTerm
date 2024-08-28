@@ -19,9 +19,9 @@ spec:
         ports:
         - containerPort: 6379
         resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
           limits:
-            memory: "512Mi"
-            cpu: "200m"
+            cpu: "200m"  # 限制 CPU 使用量
+            memory: "64Mi"  # 限制内存使用量
+          requests:
+            cpu: "100m"  # 请求的 CPU 使用量
+            memory: "32Mi"  # 请求的内存使用量
