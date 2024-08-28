@@ -170,7 +170,7 @@
         <div style="margin: 15px;text-align: center;">
             <el-upload
             ref="uploadRef"
-            action="/upload"
+            :action="import.meta.env.VITE_API_URL/upload"
             :auto-upload="false"
             :limit="1"
             name="image"
