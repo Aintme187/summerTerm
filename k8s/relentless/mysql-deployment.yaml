@@ -26,10 +26,10 @@ spec:
           mountPath: /var/lib/mysql
         resources:
           limits:
-            cpu: "500m"  # 限制 CPU 使用量
+            cpu: "1000m"  # 限制 CPU 使用量
             memory: "1024Mi"  # 限制内存使用量
           requests:
-            cpu: "250m"  # 请求的 CPU 使用量
+            cpu: "500m"  # 请求的 CPU 使用量
             memory: "512Mi"  # 请求的内存使用量
       volumes:
       - name: mysql-persistent-storage
