@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 1Gi  # 定义 PV 的存储大小
+  accessModes:
+    - ReadWriteOnce  # 定义访问模式，表示只能被单个节点以读写方式挂载
+  hostPath:
+    path: /mnt/data/mysql  # 使用主机上的路径作为存储
