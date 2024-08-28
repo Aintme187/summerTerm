@@ -170,7 +170,6 @@
         <div style="margin: 15px;text-align: center;">
             <el-upload
             ref="uploadRef"
-            action=""
             :auto-upload="false"
             :limit="1"
             name="image"
