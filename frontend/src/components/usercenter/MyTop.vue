@@ -170,7 +170,7 @@
         <div style="margin: 15px;text-align: center;">
             <el-upload
             ref="uploadRef"
-            action="/api/upload"
+            action="/upload"
             :auto-upload="false"
             :limit="1"
             name="image"
