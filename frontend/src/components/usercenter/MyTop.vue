@@ -170,7 +170,7 @@
         <div style="margin: 15px;text-align: center;">
             <el-upload
             ref="uploadRef"
-            action="http://localhost:8888/upload"
+            :action="uploadurl"
             :auto-upload="false"
             :limit="1"
             name="image"
@@ -228,7 +228,8 @@
                         { required: true, message: '邮箱地址不能为空', trigger: 'blur' },
                         { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: '请输入有效的邮箱地址', trigger: 'blur' },
                     ]
-                }
+                },
+                uploadurl:import.meta.env.VITE_API_URL+"/upload"
             };
         },
         created(){

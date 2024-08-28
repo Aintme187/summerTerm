@@ -1,30 +1,37 @@
-# 定义 MySQL 的 Deployment，用于管理 MySQL 容器的创建和更新
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql  # Deployment 的名称
+  name: mysql
 spec:
   selector:
     matchLabels:
-      app: mysql  # 选择带有此标签的 Pod，确保服务与 Deployment 匹配
-  replicas: 1  # 运行的 Pod 副本数量，这里设为1，表示只运行一个 MySQL 实例
+      app: mysql
+  replicas: 1
   template:
     metadata:
       labels:
-        app: mysql  # Pod 的标签，必须与服务的 selector 匹配
+        app: mysql
     spec:
       containers:
-      - name: mysql  # 容器的名称
-        image: aintme/summer-term-mysql:latest  # 使用的 MySQL 镜像版本
-        imagePullPolicy: Never # 禁止从远程仓库拉取镜像
+      - name: mysql
+        image: aintme/summer-term-mysql:latest
+        imagePullPolicy: Never
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "123456"  # 设置 MySQL 的 root 用户密码
+          value: "123456"
         ports:
-        - containerPort: 3306  # 容器内部 MySQL 服务的端口
+        - containerPort: 3306
         volumeMounts:
-        - name: mysql-persistent-storage  # 挂载的卷名称，用于持久化 MySQL 数据
-          mountPath: /var/lib/mysql  # MySQL 数据库在容器中的存储路径
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        resources:
+          limits:
+            cpu: "1000m"  # 限制 CPU 使用量
+            memory: "1024Mi"  # 限制内存使用量
+          requests:
+            cpu: "500m"  # 请求的 CPU 使用量
+            memory: "512Mi"  # 请求的内存使用量
       volumes:
-      - name: mysql-persistent-storage  # 定义卷的名称，名称必须与上面的 volumeMounts 对应
-        emptyDir: {}  # 使用 emptyDir 卷，这种卷在 Pod 重启时会清空数据，适合开发或测试环境
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc  # 这里引用 PVC
