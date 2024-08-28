@@ -29,12 +29,12 @@ public class UsersController {
     @PutMapping("updateUser")
     @CrossOrigin
     public Result updateUser(@RequestBody SysUser sysUser) {
-        return sysUserService.updateUser(sysUser);
+        return sysUserService.updateUser(                                       sysUser);
     }
 
     @GetMapping("getMyInfo")
     @CrossOrigin
-    public Result getMyInfo(Long id) {
+    public Result getMyInfo(@RequestParam Long id) {
         return sysUserService.getInfoById(id);
     }
 
