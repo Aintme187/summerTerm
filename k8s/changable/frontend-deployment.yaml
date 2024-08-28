@@ -19,3 +19,10 @@ spec:
         imagePullPolicy: Never # 禁止从远程仓库拉取镜像
         ports:
         - containerPort: 80  # 容器内 Nginx 监听的端口
+        resources:
+          limits:
+            cpu: "20m"  # 限制 CPU 使用量
+            memory: "32Mi"  # 限制内存使用量
+          requests:
+            cpu: "10m"  # 请求的 CPU 使用量
+            memory: "16Mi"  # 请求的内存使用量

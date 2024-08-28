@@ -28,3 +28,10 @@ spec:
       volumes:
       - name: mysql-persistent-storage  # 定义卷的名称，名称必须与上面的 volumeMounts 对应
         emptyDir: {}  # 使用 emptyDir 卷，这种卷在 Pod 重启时会清空数据，适合开发或测试环境
+        resources:
+          limits:
+            cpu: "200m"  # 限制 CPU 使用量
+            memory: "1024Mi"  # 限制内存使用量
+          requests:
+            cpu: "100m"  # 请求的 CPU 使用量
+            memory: "512Mi"  # 请求的内存使用量
