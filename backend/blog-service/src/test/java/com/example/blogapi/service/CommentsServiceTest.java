@@ -29,7 +29,7 @@ public class CommentsServiceTest {
         Assertions.assertNotEquals((List<CommentVo>)result.getData(), 0);
     }
     @Test
-    void commentsByArticleIdN() {
+    public void commentsByArticleIdN() {
         Result result = commentsService.commentsByArticleId(0L);
         Assertions.assertEquals(((List<CommentVo>) result.getData()).size(), 0);
     }
