@@ -18,12 +18,14 @@ class CommentsServiceTest {
     @Autowired
     private CommentsService commentsService;
     @Test
-    void commentsByArticleId() {
+    void commentsByArticleIdP() {
         Result result = commentsService.commentsByArticleId(1L);
         Assertions.assertNotEquals((List<CommentVo>)result.getData(), 0);
     }
-
     @Test
-    void comment() {
+    void commentsByArticleIdN() {
+        Result result = commentsService.commentsByArticleId(0L);
+        Assertions.assertEquals(((List<CommentVo>)result.getData()).size(), 0);
     }
+
 }
