@@ -30,12 +30,6 @@ public class UsersController {
         return sysUserService.updateUser(sysUser);
     }
 
-    @GetMapping("getMyInfo")
-    public Result getMyInfo(@RequestParam Long id) {
-        return sysUserService.getInfoById(id);
-    }
-
-
     /**
      * ???
      * @param id
@@ -46,4 +40,10 @@ public class UsersController {
     public Result updateAvatar(Long id,String url) {
         return sysUserService.updateAvatar(id,url);
     }
+
+    @GetMapping("getMyInfo")
+    public Result getMyInfo(@RequestParam Long id) {
+        return sysUserService.getInfoById(id);
+    }
+
 }
