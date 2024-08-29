@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: blog-service
+  cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
+    sentinel:
+      # Sentinel 规则持久化
+      # 名称随意
+      transport:
+        dashboard: 47.94.206.220:8090
+      datasource: # sentinel用nacos作为数据源的配置
+        # 自定义命名
+        flow-rule:
+          # 支持多种持久化数据源：file、nacos、zk、apollo、redis、consul
+          nacos:
+            # naco服务地址
+            server-addr: 47.94.206.220:8848
+            # 命名空间，根据环境配置
+            namespace: public
+            # 这里我做了一下细分，不同规则设置不同groupId
+            group-id: DEFAULT_GROUP
+            # 仅支持JSON和XML类型
+            data-id: blog-service-flow-rules.json
+            # 规则类型：flow、degrade、param-flow、system、authority
+            rule-type: flow
+            # nacos开启了认证需要配置username、password
+            # username: nacos
+            # password: nacos
+#        flux-control: # 流控管理（这个名称可以自定义）
+#          nacos: # 告诉sentinel用nacos作为数据源
+#            data-id: feign-test_flux-control_config.json # 配置中心里执行文件的dataId
+#            server-addr: localhost:8848 # nacos的地址
+#            rule-type: flow # 指定文件配置的是那种规则
+#            group-id: DEFAULT_GROUP
+      block-page: /blocked
+
+
+feign:
+  sentinel:
+    enabled: true
+  okhttp:
+    enabled: true # 开启OKHttp连接池支持
