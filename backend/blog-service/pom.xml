@@ -185,8 +185,12 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 
-<!--        &lt;!&ndash;网关&ndash;&gt;-->
+        <!--        &lt;!&ndash;网关&ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-gateway</artifactId>-->
@@ -222,11 +226,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <dependencies>
-<!--                    <dependency>-->
-<!--                        <groupId>org.apache.maven.surefire</groupId>-->
-<!--                        <artifactId>surefire-junit47</artifactId>-->
-<!--                        <version>2.22.2</version>-->
-<!--                    </dependency>-->
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>2.22.2</version>
+                    </dependency>
                 </dependencies>
             </plugin>
         </plugins>
