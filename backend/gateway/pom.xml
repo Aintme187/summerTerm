@@ -18,6 +18,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+
         <!--nacos discovery-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

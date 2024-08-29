@@ -124,11 +124,11 @@ pipeline {
         stage('k8s'){
             steps{
                 script{
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                        sh 'kubectl delete -f ./k8s/changable'
-                    }
                     sh 'kubectl apply -f ./k8s/changable'
                     sh 'kubectl apply -f ./k8s/relentless'
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                        sh "find ./k8s/changable -type f -name '*deployment.yaml' -exec kubectl rollout restart -f {} \\;"
+                    }
                 }
             }
         }

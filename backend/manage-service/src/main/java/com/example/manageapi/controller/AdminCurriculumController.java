@@ -23,6 +23,8 @@ public class AdminCurriculumController {
         return adminCurriculumService.listCurriculumPage(adminPageParam);
     }
 
+
+
     @GetMapping("info/{id}")
     public Result getCurriculumInfoById(@PathVariable("id") Long curriculumId) {
         return adminCurriculumService.getCurriculumInfoById(curriculumId);

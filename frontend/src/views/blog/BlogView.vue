@@ -109,7 +109,7 @@
           </el-dialog>
           <div class="me-view-comment">
             <div style="display: flex">
-              <img class="me-blog-view-picture" :src="avatar"/>
+              <img class="me-blog-view-picture" :src="article.authorInfo.avatar"/>
               <el-input
                   type="textarea"
                   :autosize="{ minRows: 2}"
@@ -370,7 +370,7 @@ const getCommentsByArticle = () => {
     comments.value = data.data;
   }).catch(error => {
     if (error !== 'error') {
-      message({type: 'error', message: '评论加载失败', showClose: true});
+      message({type: 'error', message: '点击文章太快了，请稍后再试', showClose: true});
     }
   })
 };

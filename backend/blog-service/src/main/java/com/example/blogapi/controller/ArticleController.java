@@ -1,5 +1,8 @@
 package com.example.blogapi.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.fastjson.JSONObject;
 import com.example.blogapi.common.aop.LogAnnotation;
 import com.example.blogapi.common.cache.Cache;
 import com.example.blogapi.dao.pojo.ArticleMaterial;
@@ -8,6 +11,7 @@ import com.example.blogapi.dao.pojo.Tag;
 import com.example.blogapi.service.ArticleService;
 import com.example.blogapi.service.StudentLearningService;
 import com.example.blogapi.vo.ArticleVo;
+import com.example.blogapi.vo.ErrorCode;
 import com.example.blogapi.vo.Result;
 import com.example.blogapi.vo.params.ArticleParam;
 import com.example.blogapi.vo.params.PageParams;
@@ -33,11 +37,23 @@ public class ArticleController {
     //Result是统一结果返回
     @PostMapping
     @LogAnnotation(module="文章", operator="获取文章列表")
+    @Cache(name = "articles")
     public Result articles(@RequestBody PageParams pageParams) {
         //ArticleVo 页面接收的数据
         List<ArticleVo> articles = articleService.listArticlesPage(pageParams);
         System.out.println("articles debug ~~~~" + articles);
         return Result.success(articles);
+    }
+
+
+    //降级处理方法
+    public Result fallbackHandlerForArticles(PageParams pageParams, Throwable e) {
+        // 可以返回一个预设的响应或错误信息
+        return Result.fail(ErrorCode.IS_LIMITING_FLOW);
+    }
+    // 限流/熔断处理方法
+    public Result blockHandlerForArticles(PageParams pageParams, BlockException ex) {
+        return Result.fail(ErrorCode.IS_LIMITING_FLOW);
     }
 
     @GetMapping("test")
@@ -47,13 +63,14 @@ public class ArticleController {
     }
 
     @PostMapping("hot")
-    @Cache(expire = 5 * 60 * 1000,name = "articlesHot")
+    @Cache(name = "articlesHot")
     public Result articlesHot(){
         int limit = 10;
         return articleService.articleHot(limit);
     }
 
     @PostMapping("new")
+    @Cache(name = "articleNew")
     public Result articleNew(){
         int limit = 5;
         return articleService.articleNew(limit);

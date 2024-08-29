@@ -1,8 +1,12 @@
 spring:
   cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
     sentinel:
       transport:
         dashboard: localhost:8090
+      block-page: /blocked
 
 feign:
   okhttp:

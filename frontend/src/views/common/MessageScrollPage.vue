@@ -17,6 +17,7 @@ import ScrollPage from '@/components/scrollpage/index.vue';
 import {getMessagesApi} from '@/api/message.js';
 import {useStore} from "vuex";
 import {useRoute, useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
 
 const noEmpty = ref(true)
 const store = useStore()
@@ -89,7 +90,7 @@ const getMessages = () => {
   }).catch(error => {
     if (error !== 'error') {
       // 假设这是你的全局消息组件
-      message({ type: 'error', message: '消息加载失败!', showClose: true });
+      ElMessage({ type: 'error', message: '服务器压力过大，请稍后再试！！！', showClose: true });
     }
   }).finally(() => {
     loading.value = false;
