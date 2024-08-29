@@ -1,122 +1,131 @@
 package com.example.teachapi.service;
 
-import com.example.teachapi.vo.*;
+import com.example.teachapi.vo.AssignmentVo;
+import com.example.teachapi.vo.CourseVo;
+import com.example.teachapi.vo.SubmissionVo;
+import com.example.teachapi.vo.TimetableVo;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-@RunWith(SpringRunner.class)
 @SpringBootTest
-class TeacherTeachingServiceTest {
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
+public class TeacherTeachingServiceTest {
     @Autowired
     private TeacherTeachingService teacherTeachingService;
 
     @Test
-    void getCourseTablePositive() {
+    public void getCourseTablePositive() {
         Long id = 4L;
         List<TimetableVo> data = teacherTeachingService.getCourseTable(id);
         Assertions.assertNotEquals(data.size(), 0);
     }
 
     @Test
-    void getCourseTableNegative() {
+    public void getCourseTableNegative() {
         Long id = -1L;
         List<TimetableVo> data = teacherTeachingService.getCourseTable(id);
         Assertions.assertEquals(data.size(), 0);
     }
 
     @Test
-    void getTeachingCoursesPositive() {
+    public void getTeachingCoursesPositive() {
         Long id = 4L;
         List<CourseVo> data = teacherTeachingService.getTeachingCourses(id);
         Assertions.assertNotEquals(data.size(), 0);
     }
 
     @Test
-    void getTeachingCoursesNegative() {
+    public void getTeachingCoursesNegative() {
         Long id = -1L;
         List<CourseVo> data = teacherTeachingService.getTeachingCourses(id);
         Assertions.assertEquals(data.size(), 0);
     }
 
 //    @Test
-//    void showScApplicationPositive() {
+//    public void showScApplicationPositive() {
 //        Long id = 4L;
 //        List<ScApplicationVo> data = teacherTeachingService.showScApplication(id);
 //        Assertions.assertNotEquals(data.size(), 0);
 //    }
 //
 //    @Test
-//    void showScApplicationNegative() {
+//    public void showScApplicationNegative() {
 //        Long id = -1L;
 //        List<ScApplicationVo> data = teacherTeachingService.showScApplication(id);
 //        Assertions.assertEquals(data.size(), 0);
 //    }
 
 //    @Test
-//    void showAssistantApplicationPositive() {
+//    public void showAssistantApplicationPositive() {
 //        Long id = 4L;
 //        List<AssistantApplicationVo> data = teacherTeachingService.showAssistantApplication(id);
 //        Assertions.assertNotEquals(data.size(), 0);
 //    }
 //
 //    @Test
-//    void showAssistantApplicationNegative() {
+//    public void showAssistantApplicationNegative() {
 //        Long id = -1L;
 //        List<AssistantApplicationVo> data = teacherTeachingService.showAssistantApplication(id);
 //        Assertions.assertEquals(data.size(), 0);
 //    }
 
     @Test
-    void getAssignmentsPositive() {
+    public void getAssignmentsPositive() {
         Long id = 4L;
         List<AssignmentVo> data = teacherTeachingService.getAssignments(id);
         Assertions.assertNotEquals(data.size(), 0);
     }
 
     @Test
-    void getAssignmentsNegative() {
+    public void getAssignmentsNegative() {
         Long id = -1L;
         List<AssignmentVo> data = teacherTeachingService.getAssignments(id);
         Assertions.assertEquals(data.size(), 0);
     }
 
     @Test
-    void getCourseAssignmentsPositive() {
+    public void getCourseAssignmentsPositive() {
         Long courseId = 1L;
         List<AssignmentVo> data = teacherTeachingService.getCourseAssignments(courseId);
         Assertions.assertNotEquals(data.size(), 0);
     }
 
     @Test
-    void getCourseAssignmentsNegative() {
+    public void getCourseAssignmentsNegative() {
         Long courseId = -1L;
         List<AssignmentVo> data = teacherTeachingService.getCourseAssignments(courseId);
         Assertions.assertEquals(data.size(), 0);
     }
 
     @Test
-    void showSubmissionsPositive() {
+    public void showSubmissionsPositive() {
         Long assignmentId = 1L;
         List<SubmissionVo> data = teacherTeachingService.showSubmissions(assignmentId);
         Assertions.assertNotEquals(data.size(), 0);
     }
 
     @Test
-    void showSubmissionsNegative() {
+    public void showSubmissionsNegative() {
         Long assignmentId = -1L;
         List<SubmissionVo> data = teacherTeachingService.showSubmissions(assignmentId);
         Assertions.assertEquals(data.size(), 0);
     }
 
 //    @Test
-//    void modifyCourseAssistantsNegative() {
+//    public void modifyCourseAssistantsNegative() {
 //        Long studentId = 7L;
 //        Long teacherId = 4L;
 //        Result res = teacherTeachingService.modifyCourseAssistants(studentId, teacherId, true);

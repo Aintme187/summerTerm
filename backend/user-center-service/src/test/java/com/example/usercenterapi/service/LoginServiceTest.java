@@ -1,25 +1,33 @@
 package com.example.usercenterapi.service;
 
+import com.example.usercenterapi.vo.ErrorCode;
 import com.example.usercenterapi.vo.Result;
 import com.example.usercenterapi.vo.params.LoginParam;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.usercenterapi.vo.ErrorCode;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-class LoginServiceTest {
+public class LoginServiceTest {
 
     @Autowired
     private LoginService loginService;
 
     @Test
-    void loginPositive() {
+    public void loginPositive() {
         LoginParam loginParam=new LoginParam();
         loginParam.setAccount("admin");
         loginParam.setPassword("admin");
@@ -29,7 +37,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void loginNegative() {
+    public void loginNegative() {
         LoginParam loginParam=new LoginParam();
         loginParam.setAccount("");
         loginParam.setPassword("");
@@ -39,7 +47,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void registerPositive() {
+    public void registerPositive() {
         LoginParam loginParam=new LoginParam();
         loginParam.setAccount("junittest");
         loginParam.setPassword("junittest");
@@ -50,7 +58,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void registerNegative() {
+    public void registerNegative() {
         LoginParam loginParam=new LoginParam();
         loginParam.setAccount("");
         loginParam.setPassword("");
