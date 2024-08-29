@@ -30,12 +30,6 @@ public class UsersController {
         return sysUserService.updateUser(sysUser);
     }
 
-    @GetMapping("getMyInfo")
-    public Result getMyInfo(@RequestParam Long id) {
-        return sysUserService.getInfoById(id);
-    }
-
-
     /**
      * ???
      * @param id

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.usercenterapi.vo.ErrorCode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,16 +34,8 @@ class LoginServiceTest {
         loginParam.setAccount("");
         loginParam.setPassword("");
         Result result=loginService.login(loginParam);
-        Assertions.assertTrue(result.isSuccess());
-        Assertions.assertNotNull(result.getData());
-    }
-
-    @Test
-    void checkToken() {
-    }
-
-    @Test
-    void logout() {
+        assertEquals(ErrorCode.PARAMS_ERROR.getCode(), result.getCode());
+        assertEquals(ErrorCode.PARAMS_ERROR.getMsg(), result.getMsg());
     }
 
     @Test
@@ -54,5 +47,15 @@ class LoginServiceTest {
         Result result=loginService.register(loginParam);
         Assertions.assertTrue(result.isSuccess());
         Assertions.assertNotNull(result.getData());
+    }
+
+    @Test
+    void registerNegative() {
+        LoginParam loginParam=new LoginParam();
+        loginParam.setAccount("");
+        loginParam.setPassword("");
+        Result result=loginService.register(loginParam);
+        assertEquals(ErrorCode.PARAMS_ERROR.getCode(), result.getCode());
+        assertEquals(ErrorCode.PARAMS_ERROR.getMsg(), result.getMsg());
     }
 }

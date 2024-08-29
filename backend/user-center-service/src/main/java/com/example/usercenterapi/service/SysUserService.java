@@ -31,8 +31,6 @@ public interface SysUserService {
 
     Result updateUser(SysUser sysUser);
 
-    Result getInfoById(Long id);
-
     Result updateAvatar(Long id,String url);
 
     SysUser selectById(Long id);

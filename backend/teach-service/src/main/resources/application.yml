@@ -21,19 +21,6 @@ spring:
             data-id: teach-service-degrade-rules-listCourses.json
             # 规则类型：flow、degrade、param-flow、system、authority
             rule-type: degrade
-        flow-rule:
-          # 支持多种持久化数据源：file、nacos、zk、apollo、redis、consul
-          nacos:
-            # naco服务地址
-            server-addr: localhost:8848
-            # 命名空间，根据环境配置
-            namespace: public
-            # 这里我做了一下细分，不同规则设置不同groupId
-            group-id: DEFAULT_GROUP
-            # 仅支持JSON和XML类型
-            data-id: teach-service-degrade-rules-listCourses.json
-            # 规则类型：flow、degrade、param-flow、system、authority
-            rule-type: degrade
       block-page: /blocked
 
 feign:
