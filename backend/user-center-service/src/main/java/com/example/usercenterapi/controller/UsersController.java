@@ -40,4 +40,10 @@ public class UsersController {
     public Result updateAvatar(Long id,String url) {
         return sysUserService.updateAvatar(id,url);
     }
+
+    @GetMapping("getMyInfo")
+    public Result getMyInfo(@RequestParam Long id) {
+        return sysUserService.getInfoById(id);
+    }
+
 }

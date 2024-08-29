@@ -48,4 +48,6 @@ public interface SysUserService {
     Result deleteBatchIds(List<Long> ids);
 
     Result update(BatchUpdateSysUsersParam batchUpdateSysUsersParam);
+
+    Result getInfoById(Long id);
 }
