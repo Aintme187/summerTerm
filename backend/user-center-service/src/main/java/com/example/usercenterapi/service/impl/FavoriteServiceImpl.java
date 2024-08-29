@@ -26,18 +26,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     private FavoriteMapper favoriteMapper;
     @Autowired
     private UserFavoriteMapper userFavoriteMapper;
-    @Autowired
-    private FavoriteArticleMapper favoriteArticleMapper;
     @Override
     public Result list() {
         return Result.success(favoriteMapper.selectList(new LambdaQueryWrapper<>()));
     }
 
-    @Override
-    public Result listById(Long id) {
-        Favorite favorite = favoriteMapper.selectById(id);
-        return Result.success(favorite);
-    }
+
 
     /**
      * 用户创建收藏夹
@@ -55,60 +49,4 @@ public class FavoriteServiceImpl implements FavoriteService {
         return Result.success(favorite);
     }
 
-    @Override
-    public Result showFavorite() {
-        SysUser sysUser = UserThreadLocal.get();
-        Long userId = sysUser.getId();
-        List<Favorite> favoriteList = favoriteMapper.selectListByUserId(userId);
-
-        ArrayList<FavoriteVo> favoriteVoList = new ArrayList<>();
-        for(Favorite favorite : favoriteList){
-            FavoriteVo favoriteVo = new FavoriteVo();
-            favoriteVo.setId(favorite.getId());
-            favoriteVo.setFavoriteName(favorite.getName());
-            favoriteVo.setCount(favorite.getCount());
-            favoriteVo.setAvatar(favorite.getAvatar());
-            favoriteVoList.add(favoriteVo);
-        }
-
-        return Result.success(favoriteVoList);
-    }
-
-    @Override
-    public Result upload(FavoriteParam favoriteParam) {
-        Long articleId = favoriteParam.getArticleId();
-        Long favoriteId = favoriteParam.getFavorite();
-        FavoriteArticle favoriteArticle = new FavoriteArticle();
-        favoriteArticle.setArticleId(articleId);
-        favoriteArticle.setFavoriteId(favoriteId);
-        favoriteArticleMapper.insert(favoriteArticle);
-        return Result.success(favoriteArticle);
-    }
-
-    @Override
-    public Result detailById(Long id) {
-        Favorite favorite = favoriteMapper.selectById(id);
-        FavoriteVo favoriteVo = new FavoriteVo();
-
-        favoriteVo.setId(id);
-        favoriteVo.setFavoriteName(favorite.getName());
-        return Result.success(favoriteVo);
-    }
-
-    @Override
-    public Result showOthersFavoriteByUserId(Long id) {
-        List<Favorite> favoriteList = favoriteMapper.selectListByUserId(id);
-
-        ArrayList<FavoriteVo> favoriteVoList = new ArrayList<>();
-        for(Favorite favorite : favoriteList){
-            FavoriteVo favoriteVo = new FavoriteVo();
-            favoriteVo.setId(favorite.getId());
-            favoriteVo.setFavoriteName(favorite.getName());
-            favoriteVo.setCount(favorite.getCount());
-            favoriteVo.setAvatar(favorite.getAvatar());
-            favoriteVoList.add(favoriteVo);
-        }
-
-        return Result.success(favoriteVoList);
-    }
 }

@@ -7,15 +7,5 @@ import com.example.usercenterapi.vo.params.FavoriteParam;
 public interface FavoriteService {
     Result list();
 
-    Result listById(Long id);
-
     Result create(Favorite favorite);
-
-    Result showFavorite();
-
-    Result upload(FavoriteParam favoriteParam);
-
-    Result detailById(Long id);
-
-    Result showOthersFavoriteByUserId(Long id);
 }

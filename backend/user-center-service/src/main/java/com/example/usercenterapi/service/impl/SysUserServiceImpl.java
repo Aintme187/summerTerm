@@ -49,16 +49,6 @@ public class SysUserServiceImpl implements SysUserService {
     };
 
     @Override
-    public SysUser findUserById(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
-        if (sysUser == null) {
-            sysUser = new SysUser();
-            sysUser.setNickname("默认作者");
-        }
-        return sysUser;
-    }
-
-    @Override
     public SysUser findUser(String account, String password) {
         /*
         eq是查询条件
@@ -68,19 +58,6 @@ public class SysUserServiceImpl implements SysUserService {
         queryWrapper.eq(SysUser::getAccount, account);
         queryWrapper.eq(SysUser::getPassword, password);
         queryWrapper.select(SysUser::getAccount, SysUser::getId, SysUser::getAvatar, SysUser::getNickname, SysUser::getPermission);
-        queryWrapper.last("limit 1");
-        return sysUserMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public SysUser getUserInfo(String account, String password) {
-        /*
-        eq是查询条件
-        select是查询哪些字段
-         */
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUser::getAccount, account);
-        queryWrapper.eq(SysUser::getPassword, password);
         queryWrapper.last("limit 1");
         return sysUserMapper.selectOne(queryWrapper);
     }
@@ -117,22 +94,6 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void save(SysUser sysUser) {
         sysUserMapper.insert(sysUser);
-    }
-
-    @Override
-    public UserVo findUserVoById(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
-        if (sysUser == null) {
-            sysUser = new SysUser();
-            sysUser.setId(1L);
-            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
-            sysUser.setNickname("默认作者");
-        }
-        UserVo userVo = new UserVo();
-        userVo.setAvatar(sysUser.getAvatar());
-        userVo.setNickname(sysUser.getNickname());
-        userVo.setId(sysUser.getId());
-        return userVo;
     }
 
     public Result updateUser(SysUser sysUser) {//sysUser中存放的是前端传回的用户修改信息
