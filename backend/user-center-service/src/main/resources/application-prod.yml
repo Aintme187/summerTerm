@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 47.94.206.220:8090

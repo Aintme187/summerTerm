@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
+    sentinel:
+      transport:
+        dashboard: 47.94.206.220:8090
+      block-page: /blocked
+
+feign:
+  okhttp:
+    enabled: true # 开启OKHttp连接池支持
