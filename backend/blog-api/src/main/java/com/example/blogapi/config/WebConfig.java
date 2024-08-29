@@ -21,17 +21,17 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截需要登录后才能访问的接口
-        registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/test")
-                .addPathPatterns("/comments/create/change")
-                .addPathPatterns("/articles/publish")
-                .addPathPatterns("/messages/list")
-                .addPathPatterns("/favorites/showFavorite")
-                .addPathPatterns("/favorites/create")
-                .addPathPatterns("/categorys/create")
-                .addPathPatterns("/tags/create")
-                .addPathPatterns("/articles/like/{id}")
-                .addPathPatterns("/api/**")
-                .addPathPatterns("/admin/**");
+        registry.addInterceptor(loginInterceptor);
+//                .addPathPatterns("/test")
+//                .addPathPatterns("/comments/create/change")
+//                .addPathPatterns("/articles/publish")
+//                .addPathPatterns("/messages/list")
+//                .addPathPatterns("/favorites/showFavorite")
+//                .addPathPatterns("/favorites/create")
+//                .addPathPatterns("/categorys/create")
+//                .addPathPatterns("/tags/create")
+//                .addPathPatterns("/articles/like/{id}")
+//                .addPathPatterns("/api/**")
+//                .addPathPatterns("/admin/**");
     }
 }
