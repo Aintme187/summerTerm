@@ -2,7 +2,7 @@
 import PageContainer from '@/components/PageContainer.vue'
 import {ref, reactive, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
-import {ElRow, ElCol, ElCard, ElIcon, ElDialog} from 'element-plus';
+import {ElRow, ElCol, ElCard, ElIcon, ElDialog, ElMessage} from 'element-plus';
 import { getJoinedCoursesService, getMaterialService, downloadMaterialService } from '@/api/student';
 import { getAssisitCoursesService, submitMaterialService } from '@/api/student';
 import { useStore } from 'vuex';
@@ -19,8 +19,13 @@ const userId = store.state.id;
 const currentCourseId = ref();
 
 const getJoinedCourses = async () => {
-  const resp = await getJoinedCoursesService(userId);
-  courses.value = resp.data;
+  try{
+    const resp = await getJoinedCoursesService(userId);
+    courses.value = resp.data;
+  }catch (error){
+    ElMessage({message: '服务器压力过大，请稍后再试', type:"error", showClose: true});
+  }
+
 }
 
 const getAssistCourses = async () => {
