@@ -28,7 +28,7 @@ spec:
           value: summerTerm  # Spring Boot 数据源密码
         resources:
           limits:
-            cpu: "2000m"  # 限制 CPU 使用量
+            cpu: "2500m"  # 限制 CPU 使用量
             memory: "2048Mi"  # 限制内存使用量
           requests:
             cpu: "1000m"  # 请求的 CPU 使用量
