@@ -60,6 +60,7 @@ spring:
             data-id: teach-service-degrade-rules-myCourses.json
             # 规则类型：flow、degrade、param-flow、system、authority
             rule-type: degrade
+
       block-page: /blocked
 
 feign:
