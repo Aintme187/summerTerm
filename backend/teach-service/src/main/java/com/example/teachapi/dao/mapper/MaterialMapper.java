@@ -16,7 +16,7 @@ public interface MaterialMapper extends BaseMapper<Material> {
     @Select("SELECT * FROM material WHERE course_id = #{courseId}")
     List<Material> selectMaterialsByCourseId(@Param("courseId") Long courseId);
 
-    @Select("SELECT id, course_id, url, name, size, time FROM Material WHERE course_id = #{courseId}")
+    @Select("SELECT id, course_id, url, name, size, time FROM material WHERE course_id = #{courseId}")
     List<Material> findMaterialsByCourseId(Long courseId);
 
 

@@ -1,6 +1,7 @@
 package com.example.teachapi.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.teachapi.client.BlogClient;
 import com.example.teachapi.client.SysUserClient;
 import com.example.teachapi.config.TeachingModuleConfig;
 import com.example.teachapi.dao.dto.SysUser;
@@ -55,9 +56,9 @@ public class StudentLearningServiceImpl implements StudentLearningService {
     @Autowired
     private LoginService loginService;
     @Autowired
-    private ArticleMaterialMapper articleMaterialMapper;
-    @Autowired
     private SysUserClient sysUserClient;
+    @Autowired
+    private BlogClient blogClient;
 
     @Override
     public List<TimetableVo> getCourseTable(Long studentId) {
@@ -313,14 +314,14 @@ public class StudentLearningServiceImpl implements StudentLearningService {
 
     @Override
     public List<Material> getMaterialByArticleId(Long articleId) {
-        return articleMaterialMapper.findMaterialsByArticleId(articleId);
+        return blogClient.getMaterialByArticleId(articleId);
     }
 
     @Override
     public ResponseEntity<Result> downloadMaterialForArticle(Long materialId) {
         try {
             // Retrieve the material details by its ID
-            ArticleMaterial material = articleMaterialMapper.selectById(materialId);
+            ArticleMaterial material = blogClient.selectMaterialById(materialId);
 
             // Generate the download URL for the material
             String downloadUrl = fileServiceForTeachingModule.generateDownloadUrlForArticle(material.getUrl());

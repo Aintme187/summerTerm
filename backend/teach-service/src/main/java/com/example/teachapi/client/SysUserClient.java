@@ -12,6 +12,6 @@ public interface SysUserClient {
     @GetMapping("/users/getMyInfo")
     Result queryInfo(@RequestParam("id") Long id);
 
-    @GetMapping("/users/selectById")
+    @GetMapping("/sysUser/selectById")
     SysUser selectById(@RequestParam("id") Long id);
 }
