@@ -5,6 +5,7 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.blogapi.common.aop.LogAnnotation;
 import com.example.blogapi.common.cache.Cache;
+import com.example.blogapi.dao.pojo.ArticleMaterial;
 import com.example.blogapi.dao.pojo.Material;
 import com.example.blogapi.dao.pojo.Tag;
 import com.example.blogapi.service.ArticleService;
@@ -124,5 +125,10 @@ public class ArticleController {
     @GetMapping("/materials/download")
     public ResponseEntity<Result> downloadMaterialForArticle(@RequestParam Long materialId) {
         return studentLearningService.downloadMaterialForArticle(materialId);
+    }
+
+    @GetMapping("/material/{id}")
+    public ArticleMaterial selectArticleMaterialById(@RequestParam("id") Long articleId) {
+        return articleService.selectById(articleId);
     }
 }

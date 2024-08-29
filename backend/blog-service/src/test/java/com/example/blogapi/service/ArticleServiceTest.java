@@ -2,27 +2,35 @@ package com.example.blogapi.service;
 
 import com.example.blogapi.dao.mapper.ArticleMapper;
 import com.example.blogapi.dao.pojo.Article;
-import com.example.blogapi.dao.pojo.SysUser;
 import com.example.blogapi.dao.pojo.Tag;
-import com.example.blogapi.utils.UserThreadLocal;
 import com.example.blogapi.vo.ArticleVo;
 import com.example.blogapi.vo.Result;
 import com.example.blogapi.vo.params.ArticleParam;
 import com.example.blogapi.vo.params.PageParams;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-class ArticleServiceTest {
+public class ArticleServiceTest {
 
     @Autowired
     private ArticleService articleService;
@@ -33,7 +41,7 @@ class ArticleServiceTest {
      * 展示文章
      */
     @Test
-    void listArticlesPagePositive() {
+    public void listArticlesPagePositive() {
         PageParams pageParams = new PageParams();
         pageParams.setPage(1);
         pageParams.setPageSize(3);
@@ -42,7 +50,7 @@ class ArticleServiceTest {
         Assertions.assertNotNull(articleVoList);
     }
     @Test
-    void listArticlesPageNegative() {
+    public void listArticlesPageNegative() {
         PageParams pageParams = new PageParams();
         pageParams.setPage(1);
         pageParams.setPageSize(0);
@@ -56,7 +64,7 @@ class ArticleServiceTest {
      * 热点文章
      */
     @Test
-    void articleHotPositive() {
+    public void articleHotPositive() {
 
         int limit = 5;
         Result result = articleService.articleHot(limit);
@@ -64,7 +72,7 @@ class ArticleServiceTest {
         Assertions.assertNotEquals(data.size(), 0);
     }
     @Test
-    void articleHotNegative() {
+    public void articleHotNegative() {
 
         int limit = 0;
         Result result = articleService.articleHot(limit);
@@ -76,14 +84,14 @@ class ArticleServiceTest {
      * 最新文章
      */
     @Test
-    void articleNewPositive() {
+    public void articleNewPositive() {
         int limit = 5;
         Result result = articleService.articleNew(limit);
         List<Article> data = (ArrayList<Article>)result.getData();
         Assertions.assertNotEquals(data.size(), 0);
     }
     @Test
-    void articleNewNegative() {
+    public void articleNewNegative() {
 
         int limit = 0;
         Result result = articleService.articleNew(limit);
@@ -95,14 +103,14 @@ class ArticleServiceTest {
      * 根据id查找文章
      */
     @Test
-    void findArticleByIdPositive() {
+    public void findArticleByIdPositive() {
         Long id = 1L;
         Result result = articleService.findArticleById(id);
         ArticleVo articleVo = (ArticleVo)result.getData();
         Assertions.assertNotNull(articleVo);
     }
     @Test
-    void findArticleByIdNegative() {
+    public void findArticleByIdNegative() {
         Long id = -1L;
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -115,7 +123,7 @@ class ArticleServiceTest {
      * 发布文章
      */
     @Test
-    void publishPositive() {
+    public void publishPositive() {
 
 
         Article article = new Article();
@@ -129,7 +137,7 @@ class ArticleServiceTest {
         assertNotNull(article.getId());
     }
     @Test
-    void publishNegative() {
+    public void publishNegative() {
         assertThrows(NullPointerException.class, () -> {
             ArticleParam articleParam = new ArticleParam();
             articleParam.setId(1L);
@@ -155,7 +163,7 @@ class ArticleServiceTest {
      * 点赞
      */
     @Test
-    void likePositive() {
+    public void likePositive() {
         Result res = articleService.findArticleById(1L);
         ArticleVo article = (ArticleVo) res.getData();
 
@@ -165,7 +173,7 @@ class ArticleServiceTest {
         Assertions.assertEquals(articleAfterLike.getLikeCounts(), article.getLikeCounts() + 1);
     }
     @Test
-    void likeNegative() {
+    public void likeNegative() {
         assertThrows(NullPointerException.class, () -> {
             Result res = articleService.findArticleById(1L);
             ArticleVo article = (ArticleVo) res.getData();
@@ -180,14 +188,14 @@ class ArticleServiceTest {
      * 查询我的博客
      */
     @Test
-    void myBlogsP() {
+    public void myBlogsP() {
         Result result = articleService.myBlogs(1L, 0L);
         List<ArticleVo> articleVoList = (ArrayList<ArticleVo>) result.getData();
         Assertions.assertNotEquals(articleVoList.size(), 0);
 
     }
     @Test
-    void myBlogsN() {
+    public void myBlogsN() {
         Result result = articleService.myBlogs(-1L, 0L);
         List<ArticleVo> articleVoList = (ArrayList<ArticleVo>) result.getData();
         Assertions.assertEquals(articleVoList.size(), 0);
@@ -198,7 +206,7 @@ class ArticleServiceTest {
      * 查找相关博客
      */
     @Test
-    void relatedPos() {
+    public void relatedPos() {
         List<Tag> tags = new ArrayList<>();
         Tag tag1 = new Tag();
         tag1.setId(7L);
@@ -209,7 +217,7 @@ class ArticleServiceTest {
         Assertions.assertNotEquals(articles.size(), 0);
     }
     @Test
-    void relatedNeg() {
+    public void relatedNeg() {
         List<Tag> tags = new ArrayList<>();
         Tag tag1 = new Tag();
         tag1.setId(1L);
@@ -224,13 +232,13 @@ class ArticleServiceTest {
      *
      */
     @Test
-    void hotByUserPos() {
+    public void hotByUserPos() {
         Result result = articleService.hotByUser(1L);
         List<Article> data = (ArrayList<Article>)result.getData();
         Assertions.assertNotEquals(data.size(), 0);
     }
     @Test
-    void hotByUserNeg() {
+    public void hotByUserNeg() {
         Result result = articleService.hotByUser(2L);
         List<Article> data = (ArrayList<Article>)result.getData();
         Assertions.assertEquals(data.size(), 0);

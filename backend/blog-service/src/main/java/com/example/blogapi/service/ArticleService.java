@@ -1,5 +1,6 @@
 package com.example.blogapi.service;
 
+import com.example.blogapi.dao.pojo.ArticleMaterial;
 import com.example.blogapi.dao.pojo.Tag;
 import com.example.blogapi.vo.ArticleVo;
 import com.example.blogapi.vo.Result;
@@ -35,4 +36,6 @@ public interface ArticleService {
     Result hotByUser(Long userId);
 
     void test();
+
+    ArticleMaterial selectById(Long articleId);
 }

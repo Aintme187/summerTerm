@@ -1,7 +1,6 @@
-package com.example.blogapi.service;
+package com.example.teachapi.service;
 
-import com.example.blogapi.vo.CommentVo;
-import com.example.blogapi.vo.Result;
+import com.example.teachapi.vo.CourseVo;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -20,17 +19,22 @@ import java.util.List;
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-public class CommentsServiceTest {
+public class TeachingAssistantServiceTest {
+
     @Autowired
-    private CommentsService commentsService;
+    private TeachingAssistantService teachingAssistantService;
+
     @Test
-    public void commentsByArticleIdP() {
-        Result result = commentsService.commentsByArticleId(1L);
-        Assertions.assertNotEquals((List<CommentVo>)result.getData(), 0);
+    public void getAssistCoursesPositive() {
+        Long id = 1L;
+        List<CourseVo> data = teachingAssistantService.getAssistCourses(id);
+        Assertions.assertNotEquals(data.size(), 0);
     }
+
     @Test
-    void commentsByArticleIdN() {
-        Result result = commentsService.commentsByArticleId(0L);
-        Assertions.assertEquals(((List<CommentVo>) result.getData()).size(), 0);
+    public void getAssistCoursesNegative() {
+        Long id = -1L;
+        List<CourseVo> data = teachingAssistantService.getAssistCourses(id);
+        Assertions.assertEquals(data.size(), 0);
     }
 }

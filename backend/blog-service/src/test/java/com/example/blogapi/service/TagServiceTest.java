@@ -14,8 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class TagServiceTest {
-
+public class TagServiceTest {
     @Autowired
     private TagService tagService;
     @Test

@@ -362,4 +362,8 @@ public class ArticleServiceImpl implements ArticleService {
         articleBodyVo.setContent(articleBody.getContent());
         return articleBodyVo;
     }
+
+    public ArticleMaterial selectById(Long articleId) {
+        return articleMaterialMapper.selectById(articleId);
+    }
 }

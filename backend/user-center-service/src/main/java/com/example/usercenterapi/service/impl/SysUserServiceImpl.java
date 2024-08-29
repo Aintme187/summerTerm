@@ -49,16 +49,6 @@ public class SysUserServiceImpl implements SysUserService {
     };
 
     @Override
-    public SysUser findUserById(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
-        if (sysUser == null) {
-            sysUser = new SysUser();
-            sysUser.setNickname("默认作者");
-        }
-        return sysUser;
-    }
-
-    @Override
     public SysUser findUser(String account, String password) {
         /*
         eq是查询条件
@@ -68,19 +58,6 @@ public class SysUserServiceImpl implements SysUserService {
         queryWrapper.eq(SysUser::getAccount, account);
         queryWrapper.eq(SysUser::getPassword, password);
         queryWrapper.select(SysUser::getAccount, SysUser::getId, SysUser::getAvatar, SysUser::getNickname, SysUser::getPermission);
-        queryWrapper.last("limit 1");
-        return sysUserMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public SysUser getUserInfo(String account, String password) {
-        /*
-        eq是查询条件
-        select是查询哪些字段
-         */
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUser::getAccount, account);
-        queryWrapper.eq(SysUser::getPassword, password);
         queryWrapper.last("limit 1");
         return sysUserMapper.selectOne(queryWrapper);
     }
@@ -119,39 +96,10 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserMapper.insert(sysUser);
     }
 
-    @Override
-    public UserVo findUserVoById(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
-        if (sysUser == null) {
-            sysUser = new SysUser();
-            sysUser.setId(1L);
-            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
-            sysUser.setNickname("默认作者");
-        }
-        UserVo userVo = new UserVo();
-        userVo.setAvatar(sysUser.getAvatar());
-        userVo.setNickname(sysUser.getNickname());
-        userVo.setId(sysUser.getId());
-        return userVo;
-    }
-
     public Result updateUser(SysUser sysUser) {//sysUser中存放的是前端传回的用户修改信息
-
-        SysUser existingUser = sysUserMapper.selectById(sysUser.getId());
-
-//        if (sysUser.equals(existingUser)) {//更新信息若与原先相同则报错
-//            return Result.fail(ErrorCode.USER_INFO_NOT_CHANGED.getCode(), ErrorCode.USER_INFO_NOT_CHANGED.getMsg());
-//        }
-//        if (sysUser.getEmail() != null && !sysUser.getEmail().equals(existingUser.getEmail()) ) {
-//            sysUser.setEmail(sysUser.getEmail());
-//        }
-//        if (sysUser.getMobilePhoneNumber() != null && !sysUser.getMobilePhoneNumber().equals(existingUser.getMobilePhoneNumber())) {
-//            sysUser.setMobilePhoneNumber(sysUser.getMobilePhoneNumber());
-//        }
-//        if (sysUser.getPassword() != null && !sysUser.getPassword().equals(existingUser.getPassword())) {
-//            String updatedPassword = DigestUtils.md5Hex(sysUser.getPassword() + existingUser.getSalt());
-//            sysUser.setPassword(updatedPassword);
-//        }
+        if(sysUser.getId()==null){
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
+        }
         if(sysUser.getPassword()!=null) {
             sysUser.setPassword(DigestUtils.md5Hex(sysUser.getPassword() + "salt"));
         }
@@ -159,20 +107,13 @@ public class SysUserServiceImpl implements SysUserService {
         return Result.success(sysUser);
     }
 
-    @Override
-    public Result getInfoById(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
-        if (sysUser == null) {
-            sysUser = new SysUser();
-            sysUser.setId(1L);
-            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
-            sysUser.setNickname("默认作者");
-        }
-        return Result.success(sysUser);
-    }
+
 
     @Override
     public Result updateAvatar(Long id, String url) {
+        if(id==0){
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
+        }
         SysUser user = sysUserMapper.selectById(id);
         user.setAvatar(url);
         sysUserMapper.updateById(user);
@@ -322,5 +263,17 @@ public class SysUserServiceImpl implements SysUserService {
             return ErrorCode.ILLEGAL_DEPTNAME;
         }
         return null;
+    }
+
+    @Override
+    public Result getInfoById(Long id) {
+        SysUser sysUser = sysUserMapper.selectById(id);
+        if (sysUser == null) {
+            sysUser = new SysUser();
+            sysUser.setId(1L);
+            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
+            sysUser.setNickname("默认作者");
+        }
+        return Result.success(sysUser);
     }
 }
