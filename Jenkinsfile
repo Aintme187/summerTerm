@@ -37,7 +37,7 @@ pipeline {
                         sh 'mvn clean package'
                     }
                     dir('frontend') {
-                        // sh 'npm install'
+                        // sh 'npm install' 
                         sh 'npm run build'
                     }
                     sh 'echo "Building the application..."'
